@@ -18,6 +18,6 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
     }
     public void onBtnStartGame(View view) {
-        startActivity(new Intent(this, GameActivity.class));
+        startActivity(new Intent(this, GameView.class));
     }
 }

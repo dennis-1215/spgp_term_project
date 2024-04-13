@@ -6,12 +6,13 @@ import android.content.Context;
 import android.os.Bundle;
 import android.view.View;
 
-public class GameView extends View {
-    private final Activity activity;
+import androidx.appcompat.app.AppCompatActivity;
 
+public class GameView extends AppCompatActivity {
 
-    public GameView(Context context) {
-        super(context);
-        this.activity = (Activity) context;
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_game);
     }
 }
