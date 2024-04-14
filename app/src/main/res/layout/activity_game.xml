@@ -5,6 +5,72 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".GameActivity">
+    >
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintWidth="match_parent"
+        app:layout_constraintHeight="match_parent"
+        android:orientation="vertical"
+        tools:ignore="MissingConstraints">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="15"
+            >
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_weight="1"
+                >
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Time"
+                    />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="0:00"
+                    android:textSize="20dp"
+                    />
 
+
+
+            </LinearLayout>>
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="8"
+                >
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:text="Level"
+                    />
+
+                <ProgressBar
+                    android:id="@+id/progressBar"
+                    style="?android:attr/progressBarStyle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1" />
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+
+            >
+            <kr.ac.tukorea.ge.spgp.termproject.GameView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                />
+        </LinearLayout>
+    </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>
