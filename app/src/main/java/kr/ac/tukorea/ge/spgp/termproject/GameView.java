@@ -11,6 +11,7 @@ import android.graphics.RectF;
 import android.util.AttributeSet;
 import android.view.Choreographer;
 import android.view.View;
+import android.widget.ProgressBar;
 
 //import android.util.AttributeSet;
 
@@ -27,9 +28,7 @@ public class GameView extends View implements Choreographer.FrameCallback {
         borderPaint.setStyle(Paint.Style.STROKE);
         borderPaint.setStrokeWidth(0.1f);
         borderPaint.setColor(Color.RED);
-
         setFullScreen(); // default behavior?
-
 
         scheduleUpdate();
     }
