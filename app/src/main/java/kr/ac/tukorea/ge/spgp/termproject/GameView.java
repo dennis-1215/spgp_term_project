@@ -22,9 +22,8 @@ import android.widget.ProgressBar;
 public class GameView extends View implements Choreographer.FrameCallback {
     private static final String TAG = GameView.class.getSimpleName();
     private Activity activity;
-    private final Bitmap monsterBitmap;
-    private final RectF monsterRect = new RectF(3.5f, 7.0f, 5.5f, 9.0f);
-    private float monsterDx = 0.0f, monsterDy = 0.06f;
+
+    private final Monster monster = new Monster(4.5f, 8.0f, 0.0f, 0.06f);
 
 
     public GameView(Context context, AttributeSet attr){
@@ -38,7 +37,8 @@ public class GameView extends View implements Choreographer.FrameCallback {
         setFullScreen(); // default behavior?
 
         Resources res = getResources();
-        monsterBitmap = BitmapFactory.decodeResource(res, R.mipmap.monster_a);
+        Bitmap monsterBitmap = BitmapFactory.decodeResource(res, R.mipmap.monster_a);
+        Monster.setBitmap(monsterBitmap);
 
         scheduleUpdate();
     }
@@ -76,8 +76,8 @@ public class GameView extends View implements Choreographer.FrameCallback {
         return null;
     }
 
-    private static final float SCREEN_WIDTH = 9.0f;
-    private static final float SCREEN_HEIGHT = 16.0f;
+    public static final float SCREEN_WIDTH = 9.0f;
+    public static final float SCREEN_HEIGHT = 16.0f;
     private final Matrix transformMatrix = new Matrix();
     private final RectF borderRect = new RectF(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT);
     private final Paint borderPaint;
@@ -106,7 +106,7 @@ public class GameView extends View implements Choreographer.FrameCallback {
         canvas.save();
         canvas.concat(transformMatrix);
         canvas.drawRect(borderRect, borderPaint);
-        canvas.drawBitmap(monsterBitmap, null, monsterRect, null);
+        monster.draw(canvas);
         canvas.restore();
     }
 
@@ -120,12 +120,6 @@ public class GameView extends View implements Choreographer.FrameCallback {
     }
 
     private void update() {
-        monsterRect.offset(monsterDx, monsterDy);
-        Log.d(TAG, "monsterRect = " + monsterRect); // Shift+Ctrl+Backspace 활용법 설명
-        if (monsterDy > 0) {
-            if (monsterRect.bottom > SCREEN_HEIGHT) {
-                monsterDy = 0;
-            }
-        }
+        monster.update();
     }
 }
