@@ -3,49 +3,42 @@ package kr.ac.tukorea.ge.spgp.termproject;
 import android.app.Activity;
 import android.content.Context;
 import android.content.ContextWrapper;
+import android.content.res.Resources;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Matrix;
 import android.graphics.Paint;
 import android.graphics.RectF;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.Choreographer;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.ProgressBar;
 
-//import android.util.AttributeSet;
 
 public class GameView extends View implements Choreographer.FrameCallback {
     private static final String TAG = GameView.class.getSimpleName();
     private Activity activity;
+    private final Bitmap monsterBitmap;
+    private final RectF monsterRect = new RectF(3.5f, 7.0f, 5.5f, 9.0f);
+    private float monsterDx = 0.0f, monsterDy = 0.06f;
+
 
     public GameView(Context context, AttributeSet attr){
         super(context, attr);
-        if (context instanceof Activity) {
-            this.activity = (Activity) context;
-        }
+        this.activity = (Activity) context;
+
         borderPaint = new Paint();
         borderPaint.setStyle(Paint.Style.STROKE);
         borderPaint.setStrokeWidth(0.1f);
         borderPaint.setColor(Color.RED);
         setFullScreen(); // default behavior?
 
-        scheduleUpdate();
-    }
-
-    public GameView(Context context) {
-        super(context);
-        if (context instanceof Activity) {
-            this.activity = (Activity) context;
-        }
-
-        borderPaint = new Paint();
-        borderPaint.setStyle(Paint.Style.STROKE);
-        borderPaint.setStrokeWidth(0.1f);
-        borderPaint.setColor(Color.RED);
-
-        setFullScreen(); // default behavior?
-
+        Resources res = getResources();
+        monsterBitmap = BitmapFactory.decodeResource(res, R.mipmap.monster_a);
 
         scheduleUpdate();
     }
@@ -56,21 +49,13 @@ public class GameView extends View implements Choreographer.FrameCallback {
         Choreographer.getInstance().postFrameCallback(this);
     }
 
-
-    private long previousNanos = 0;
-    private float elapsedSeconds;
     @Override
     public void doFrame(long nanos) {
-        long elapsedNanos = nanos - previousNanos;
-        elapsedSeconds = elapsedNanos / 1_000_000_000f;
-        if (previousNanos != 0) {
-            update();
-        }
+        update();
         invalidate();
         if (isShown()) {
             scheduleUpdate();
         }
-        previousNanos = nanos;
     };
 
     public void setFullScreen() {
@@ -91,11 +76,9 @@ public class GameView extends View implements Choreographer.FrameCallback {
         return null;
     }
 
-    public static final float SCREEN_WIDTH = 9.0f;
-    public static final float SCREEN_HEIGHT = 16.0f;
+    private static final float SCREEN_WIDTH = 9.0f;
+    private static final float SCREEN_HEIGHT = 16.0f;
     private final Matrix transformMatrix = new Matrix();
-    private final Matrix invertedMatrix = new Matrix();
-    private final float[] pointsBuffer = new float[2];
     private final RectF borderRect = new RectF(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT);
     private final Paint borderPaint;
 
@@ -115,7 +98,6 @@ public class GameView extends View implements Choreographer.FrameCallback {
             transformMatrix.setTranslate(0, (h - w / game_ratio) / 2);
             transformMatrix.preScale(scale, scale);
         }
-        transformMatrix.invert(invertedMatrix);
     }
 
     @Override
@@ -124,10 +106,26 @@ public class GameView extends View implements Choreographer.FrameCallback {
         canvas.save();
         canvas.concat(transformMatrix);
         canvas.drawRect(borderRect, borderPaint);
+        canvas.drawBitmap(monsterBitmap, null, monsterRect, null);
         canvas.restore();
     }
 
+    @Override
+    public boolean onTouchEvent(MotionEvent event) {
+        if (event.getAction() == MotionEvent.ACTION_DOWN) {
+            update();
+            invalidate();
+        }
+        return super.onTouchEvent(event);
+    }
 
     private void update() {
+        monsterRect.offset(monsterDx, monsterDy);
+        Log.d(TAG, "monsterRect = " + monsterRect); // Shift+Ctrl+Backspace 활용법 설명
+        if (monsterDy > 0) {
+            if (monsterRect.bottom > SCREEN_HEIGHT) {
+                monsterDy = 0;
+            }
+        }
     }
 }
