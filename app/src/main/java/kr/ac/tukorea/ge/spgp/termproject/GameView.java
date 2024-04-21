@@ -12,18 +12,18 @@ import android.graphics.Matrix;
 import android.graphics.Paint;
 import android.graphics.RectF;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.Choreographer;
 import android.view.MotionEvent;
 import android.view.View;
-import android.widget.ProgressBar;
+
+import java.util.ArrayList;
 
 
 public class GameView extends View implements Choreographer.FrameCallback {
     private static final String TAG = GameView.class.getSimpleName();
     private Activity activity;
 
-    private final Monster monster = new Monster(4.5f, 8.0f, 0.0f, 0.06f);
+    private final ArrayList<Monster> monsters = new ArrayList<>();
 
 
     public GameView(Context context, AttributeSet attr){
@@ -37,8 +37,15 @@ public class GameView extends View implements Choreographer.FrameCallback {
         setFullScreen(); // default behavior?
 
         Resources res = getResources();
-        Bitmap monsterBitmap = BitmapFactory.decodeResource(res, R.mipmap.monster_a);
-        Monster.setBitmap(monsterBitmap);
+        Bitmap monsterBitmapA = BitmapFactory.decodeResource(res, R.mipmap.monster_a);
+        Bitmap monsterBitmapB = BitmapFactory.decodeResource(res, R.mipmap.monster_b);
+
+        MonsterA.setBitmap(monsterBitmapA);
+        MonsterB.setBitmap(monsterBitmapB);
+
+        for(int i = 0; i < 10; i++){
+            monsters.add(Monster.random());
+        }
 
         scheduleUpdate();
     }
@@ -77,7 +84,7 @@ public class GameView extends View implements Choreographer.FrameCallback {
     }
 
     public static final float SCREEN_WIDTH = 9.0f;
-    public static final float SCREEN_HEIGHT = 16.0f;
+    public   static final float SCREEN_HEIGHT = 16.0f;
     private final Matrix transformMatrix = new Matrix();
     private final RectF borderRect = new RectF(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT);
     private final Paint borderPaint;
@@ -106,7 +113,9 @@ public class GameView extends View implements Choreographer.FrameCallback {
         canvas.save();
         canvas.concat(transformMatrix);
         canvas.drawRect(borderRect, borderPaint);
-        monster.draw(canvas);
+        for(Monster monster : monsters){
+            monster.draw(canvas);
+        }
         canvas.restore();
     }
 
@@ -120,6 +129,8 @@ public class GameView extends View implements Choreographer.FrameCallback {
     }
 
     private void update() {
-        monster.update();
+        for(Monster monster : monsters){
+            monster.update();
+        }
     }
 }
