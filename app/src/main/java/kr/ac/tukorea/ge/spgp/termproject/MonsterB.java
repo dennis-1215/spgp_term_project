@@ -10,14 +10,15 @@ public class MonsterB extends Monster {
 
     private final RectF dstRect = new RectF();
     private static final float MONSTER_OFFSET = 1.0f;
+    private static final float SPEED = 1.0f;
     private float dx, dy;
 
     public MonsterB(float centerX, float centerY, float dx, float dy) {
         super(centerX, centerY, dx, dy);
         dstRect.set(centerX - MONSTER_OFFSET, centerY - MONSTER_OFFSET,
                 centerX + MONSTER_OFFSET, centerY + MONSTER_OFFSET);
-        this.dx = dx;
-        this.dy = dy;
+        this.dx = SPEED*dx;
+        this.dy = SPEED*dy;
     }
 
     private static Bitmap bitmap;
@@ -25,8 +26,10 @@ public class MonsterB extends Monster {
         MonsterB.bitmap = bitmap;
     }
 
-    public void update() {
-        dstRect.offset(dx, dy);
+    public void update(float elapsedSeconds) {
+        float timeDx = this.dx * elapsedSeconds;
+        float timeDy = this.dy * elapsedSeconds;
+        dstRect.offset(timeDx, timeDy);
         if (dy > 0) {
             if (dstRect.bottom > GameView.SCREEN_HEIGHT) {
                 dy = 0;

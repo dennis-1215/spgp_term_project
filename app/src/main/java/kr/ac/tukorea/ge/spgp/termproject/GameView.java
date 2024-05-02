@@ -30,10 +30,13 @@ public class GameView extends View implements Choreographer.FrameCallback {
         super(context, attr);
         this.activity = (Activity) context;
 
-        borderPaint = new Paint();
         borderPaint.setStyle(Paint.Style.STROKE);
         borderPaint.setStrokeWidth(0.1f);
         borderPaint.setColor(Color.RED);
+
+        fpsPaint.setColor(Color.BLUE);
+        fpsPaint.setTextSize(100f);
+
         setFullScreen(); // default behavior?
 
         Resources res = getResources();
@@ -56,13 +59,20 @@ public class GameView extends View implements Choreographer.FrameCallback {
         Choreographer.getInstance().postFrameCallback(this);
     }
 
+    private long previousNanos = 0;
+    private float elapsedSeconds;
     @Override
     public void doFrame(long nanos) {
-        update();
+        long elapsedNanos = nanos - previousNanos;
+        elapsedSeconds = elapsedNanos / 1_000_000_000f;
+        if (previousNanos != 0) {
+            update();
+        }
         invalidate();
         if (isShown()) {
             scheduleUpdate();
         }
+        previousNanos = nanos;
     };
 
     public void setFullScreen() {
@@ -87,7 +97,8 @@ public class GameView extends View implements Choreographer.FrameCallback {
     public   static final float SCREEN_HEIGHT = 16.0f;
     private final Matrix transformMatrix = new Matrix();
     private final RectF borderRect = new RectF(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT);
-    private final Paint borderPaint;
+    private final Paint borderPaint = new Paint();
+    private final Paint fpsPaint = new Paint();
 
     @Override
     protected void onSizeChanged(int w, int h, int oldw, int oldh) {
@@ -117,6 +128,9 @@ public class GameView extends View implements Choreographer.FrameCallback {
             monster.draw(canvas);
         }
         canvas.restore();
+
+        int fps = (int) (1.0f / elapsedSeconds);
+        canvas.drawText("FPS: " + fps, 100f, 200f, fpsPaint);
     }
 
     @Override
@@ -130,7 +144,7 @@ public class GameView extends View implements Choreographer.FrameCallback {
 
     private void update() {
         for(Monster monster : monsters){
-            monster.update();
+            monster.update(elapsedSeconds);
         }
     }
 }
