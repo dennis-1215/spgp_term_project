@@ -24,6 +24,7 @@ public class GameView extends View implements Choreographer.FrameCallback {
     private Activity activity;
 
     private final ArrayList<Monster> monsters = new ArrayList<>();
+    private final Player player;
 
 
     public GameView(Context context, AttributeSet attr){
@@ -49,6 +50,9 @@ public class GameView extends View implements Choreographer.FrameCallback {
         for(int i = 0; i < 10; i++){
             monsters.add(Monster.random());
         }
+
+        Bitmap fighterBitmap = BitmapFactory.decodeResource(res, R.mipmap.playersprite);
+        this.player = new Player(fighterBitmap);
 
         scheduleUpdate();
     }
@@ -127,6 +131,7 @@ public class GameView extends View implements Choreographer.FrameCallback {
         for(Monster monster : monsters){
             monster.draw(canvas);
         }
+        player.draw(canvas);
         canvas.restore();
 
         int fps = (int) (1.0f / elapsedSeconds);
