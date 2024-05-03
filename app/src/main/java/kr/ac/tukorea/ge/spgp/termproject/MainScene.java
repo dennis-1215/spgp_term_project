@@ -35,6 +35,9 @@ public class MainScene extends Scene {
             case MotionEvent.ACTION_DOWN:
             case MotionEvent.ACTION_MOVE:
                 float[] pts = Metrics.fromScreen(event.getX(), event.getY());
+                if (pts[1] < 1.0) {
+                    pop();
+                }
                 return true;
         }
         // 서브씬 테스트용 Ctrl+Click

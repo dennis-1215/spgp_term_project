@@ -2,28 +2,55 @@ package kr.ac.tukorea.ge.spgp.termproject;
 
 import android.graphics.Canvas;
 import android.view.MotionEvent;
+import android.util.Log;
 
 import java.util.ArrayList;
 
 public class Scene {
-
     private static ArrayList<Scene> stack = new ArrayList<>();
+    private static final String TAG = Scene.class.getSimpleName();
 
     public static Scene top() {
         int top = stack.size() - 1;
-        if (top < 0) return null;
+        if (top < 0) {
+            Log.e(TAG, "Scene Stack is empty in Scene.top()");
+            return null;
+        }
         return stack.get(top);
     }
     public static void push(Scene scene) {
+        Scene prev = top();
+        if (prev != null) {
+            prev.onPause();
+        }
         stack.add(scene);
+        scene.onStart();
     }
     public void push() {
         push(this);
     }
     public static void pop() {
-        int top = stack.size() - 1;
-        if (top < 0) return;
-        stack.remove(top);
+        Scene scene = top();
+        if (scene == null) {
+            Log.e(TAG, "Scene Stack is empty in Scene.pop()");
+            return;
+        }
+        scene.onEnd();
+        stack.remove(scene);
+
+        scene = top();
+        if (scene == null) {
+            Log.i(TAG, "Last scene is being popped");
+            finishActivity();
+            return;
+        }
+        scene.onResume();
+    }
+
+    public static void finishActivity() {
+        //GameView gameView = null;
+        //gaveView.getActivity().finish();
+        GameActivity.activity.finish();
     }
 
     protected final ArrayList<IGameObject> gameObjects = new ArrayList<>();
@@ -43,4 +70,23 @@ public class Scene {
     public boolean onTouch(MotionEvent event) {
         return false;
     }
+
+    //////////////////////////////////////////////////
+    // Overridables
+
+
+    protected void onStart() {
+    }
+    protected void onEnd() {
+    }
+
+    protected void onPause() {
+    }
+    protected void onResume() {
+    }
+
+    public boolean onBackPressed() {
+        return false;
+    }
+
 }

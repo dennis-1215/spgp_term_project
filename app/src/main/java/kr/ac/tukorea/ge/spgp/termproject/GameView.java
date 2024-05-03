@@ -20,7 +20,6 @@ import java.util.ArrayList;
 
 public class GameView extends View implements Choreographer.FrameCallback {
     private static final String TAG = GameView.class.getSimpleName();
-    private Activity activity;
 
     // Debug Helper
     private Paint borderPaint;
@@ -39,11 +38,8 @@ public class GameView extends View implements Choreographer.FrameCallback {
     }
 
     // View Constructor
-    public GameView(Context context, AttributeSet attr){
-        super(context, attr);
-        if(context instanceof Activity) {
-            this.activity = (Activity) context;
-        }
+    public GameView(Context context){
+        super(context);
 
         setFullScreen(); // default behavior?
 
@@ -86,19 +82,24 @@ public class GameView extends View implements Choreographer.FrameCallback {
 
     private void update() {
         Scene scene = Scene.top();
-        scene.update(elapsedSeconds);
+        if (scene != null) {
+            scene.update(elapsedSeconds);
+        }
     }
 
     @Override
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
+        Scene scene = Scene.top();
+        if (scene == null) {
+            return;
+        }
         canvas.save();
         Metrics.concat(canvas);
         if(BuildConfig.DEBUG) {
             canvas.drawRect(borderRect, borderPaint);
         }
 
-        Scene scene = Scene.top();
         scene.draw(canvas);
         canvas.restore();
 
@@ -116,21 +117,7 @@ public class GameView extends View implements Choreographer.FrameCallback {
         setSystemUiVisibility(flags);
     }
 
-    public Activity getActivity() {
-        Context context = getContext();
-        while (context instanceof ContextWrapper) {
-            if (context instanceof Activity) {
-                return (Activity)context;
-            }
-            context = ((ContextWrapper)context).getBaseContext();
-        }
-        return null;
-    }
-
-
     // coordinate System
-
-
     @Override
     protected void onSizeChanged(int w, int h, int oldw, int oldh) {
         super.onSizeChanged(w, h, oldw, oldh);
@@ -138,12 +125,26 @@ public class GameView extends View implements Choreographer.FrameCallback {
         Metrics.onSize(w, h);
     }
 
-
     // Touch Event
     @Override
     public boolean onTouchEvent(MotionEvent event) {
-        boolean handled = Scene.top().onTouch(event);
-        if (handled) return true;
+        Scene scene = Scene.top();
+        if (scene != null) {
+            boolean handled = scene.onTouch(event);
+            if (handled) return true;
+        }
         return super.onTouchEvent(event);
+    }
+
+    public void onBackPressed() {
+        Scene scene = Scene.top();
+        if (scene == null) {
+            Scene.finishActivity();
+            return;
+        }
+        boolean handled = scene.onBackPressed();
+        if (handled) return;
+
+        Scene.pop();
     }
 }
