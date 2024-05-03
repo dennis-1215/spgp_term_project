@@ -37,6 +37,10 @@ public class MainScene extends Scene {
                 float[] pts = Metrics.fromScreen(event.getX(), event.getY());
                 return true;
         }
+        // 서브씬 테스트용 Ctrl+Click
+        if (event.getPointerCount() >= 2) {
+            new ChoiceScene().push();
+        }
         return false;
     }
 }
