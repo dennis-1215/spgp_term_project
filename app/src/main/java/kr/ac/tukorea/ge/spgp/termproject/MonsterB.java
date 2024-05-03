@@ -31,7 +31,7 @@ public class MonsterB extends Monster {
         float timeDy = this.dy * elapsedSeconds;
         dstRect.offset(timeDx, timeDy);
         if (dy > 0) {
-            if (dstRect.bottom > GameView.SCREEN_HEIGHT) {
+            if (dstRect.bottom > Metrics.SCREEN_HEIGHT) {
                 dy = 0;
             }
         }

@@ -14,11 +14,11 @@ public class Monster implements IGameObject {
     public static final Random random = new Random();
     public static Monster random(){
         if(random.nextFloat() < 0.5f) {
-            return new MonsterA(random.nextFloat() * GameView.SCREEN_WIDTH,
+            return new MonsterA(random.nextFloat() * Metrics.SCREEN_WIDTH,
                     0.0f, 0, 1.0f);
         }
         else{
-            return new MonsterB(random.nextFloat() * GameView.SCREEN_WIDTH,
+            return new MonsterB(random.nextFloat() * Metrics.SCREEN_WIDTH,
                     0.0f, 0, 1.0f);
         }
     }
