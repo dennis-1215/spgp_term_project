@@ -8,12 +8,15 @@ import android.graphics.RectF;
 public class Player implements IGameObject{
     private Bitmap bitmap;
     private RectF dstRect = new RectF();
-    private float tx, ty, dx, dy;
-    private float x, y, offset;
+    private static final float BULLET_INTERVAL = 1.0f/3.0f;
+    private static final float offset = 1.25f;
+    private float x, y, angle;
+    private float bulletCoolTime;
 
     public Player() {
         x = Metrics.width / 2;
-        y = 2 * Metrics.height / 3;
+        y = 4 * Metrics.height / 5;
+        angle = -90;
         dstRect.set(x-offset, y-offset, x+offset, y+offset);
 
         this.bitmap = BitmapPool.get(R.mipmap.playersprite);
@@ -21,6 +24,12 @@ public class Player implements IGameObject{
 
     @Override
     public void update(float elapsedSeconds) {
+        bulletCoolTime -= elapsedSeconds;
+        if (bulletCoolTime <= 0) {
+            Bullet bullet = new Bullet(x, y, (float) Math.toRadians(angle));
+            Scene.top().add(bullet);
+            bulletCoolTime = BULLET_INTERVAL;
+        }
     }
 
     @Override

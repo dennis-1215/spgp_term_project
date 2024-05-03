@@ -56,7 +56,9 @@ public class Scene {
     protected final ArrayList<IGameObject> gameObjects = new ArrayList<>();
 
     public void update(float elapsedSeconds) {
-        for (IGameObject gameObject : gameObjects) {
+        int count = gameObjects.size();
+        for (int i = count - 1; i >= 0; i--) {
+            IGameObject gameObject = gameObjects.get(i);
             gameObject.update(elapsedSeconds);
         }
     }
@@ -70,10 +72,7 @@ public class Scene {
     public boolean onTouch(MotionEvent event) {
         return false;
     }
-
-    //////////////////////////////////////////////////
     // Overridables
-
 
     protected void onStart() {
     }
@@ -89,4 +88,9 @@ public class Scene {
         return false;
     }
 
+    // Game Object Management
+    public void add(IGameObject gameObject) {
+        gameObjects.add(gameObject);
+        Log.d(TAG, gameObjects.size() + " objects in " + this);
+    }
 }

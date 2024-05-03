@@ -12,14 +12,14 @@ public class MainScene extends Scene {
     private final Player player;
 
     public MainScene() {
-        Metrics.setGameSize(20.0f, 20.0f);
+        Metrics.setGameSize(9.0f, 16.0f);
 
         for(int i = 0; i < 10; i++){
-            gameObjects.add(Monster.random());
+            add(Monster.random());
         }
 
         this.player = new Player();
-        gameObjects.add(player);
+        add(player);
     }
 
     @Override
