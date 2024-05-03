@@ -19,5 +19,8 @@ public class GameActivity extends AppCompatActivity {
         GameView gameView = new GameView(this, attr);
 
         setContentView(R.layout.activity_game);
+        //setContentView(gameView);
+
+        new MainScene().push();
     }
 }

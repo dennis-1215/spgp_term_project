@@ -56,24 +56,11 @@ public class GameView extends View implements Choreographer.FrameCallback {
     }
 
     // Game Objects
+    public static Resources res;
     private final ArrayList<IGameObject> gameObjects = new ArrayList<>();
-    private Player player;
 
     private void initGame(){
-        Resources res = getResources();
-        Bitmap monsterBitmapA = BitmapFactory.decodeResource(res, R.mipmap.monster_a);
-        Bitmap monsterBitmapB = BitmapFactory.decodeResource(res, R.mipmap.monster_b);
-
-        MonsterA.setBitmap(monsterBitmapA);
-        MonsterB.setBitmap(monsterBitmapB);
-
-        for(int i = 0; i < 10; i++){
-            gameObjects.add(Monster.random());
-        }
-
-        Bitmap fighterBitmap = BitmapFactory.decodeResource(res, R.mipmap.playersprite);
-        this.player = new Player(fighterBitmap);
-        gameObjects.add(player);
+        res = getResources();
     }
 
     // Game Loop
@@ -98,9 +85,8 @@ public class GameView extends View implements Choreographer.FrameCallback {
     };
 
     private void update() {
-        for(IGameObject gameObject : gameObjects){
-            gameObject.update(elapsedSeconds);
-        }
+        Scene scene = Scene.top();
+        scene.update(elapsedSeconds);
     }
 
     @Override
@@ -111,10 +97,11 @@ public class GameView extends View implements Choreographer.FrameCallback {
         if(BuildConfig.DEBUG) {
             canvas.drawRect(borderRect, borderPaint);
         }
-        for (IGameObject gameObject : gameObjects) {
-            gameObject.draw(canvas);
-        }
+
+        Scene scene = Scene.top();
+        scene.draw(canvas);
         canvas.restore();
+
         if (BuildConfig.DEBUG) {
             int fps = (int) (1.0f / elapsedSeconds);
             canvas.drawText("FPS: " + fps, 100f, 200f, fpsPaint);
@@ -155,12 +142,8 @@ public class GameView extends View implements Choreographer.FrameCallback {
     // Touch Event
     @Override
     public boolean onTouchEvent(MotionEvent event) {
-        switch (event.getAction()) {
-            case MotionEvent.ACTION_DOWN:
-            case MotionEvent.ACTION_MOVE:
-                float[] pts = Metrics.fromScreen(event.getX(), event.getY());
-                return true;
-        }
+        boolean handled = Scene.top().onTouch(event);
+        if (handled) return true;
         return super.onTouchEvent(event);
     }
 }
