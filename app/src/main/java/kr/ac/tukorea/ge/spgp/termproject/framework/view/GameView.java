@@ -1,16 +1,19 @@
-package kr.ac.tukorea.ge.spgp.termproject;
+package kr.ac.tukorea.ge.spgp.termproject.framework.view;
 
 import android.content.Context;
 import android.content.res.Resources;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
-import android.graphics.RectF;
 import android.view.Choreographer;
 import android.view.MotionEvent;
 import android.view.View;
 
 import java.util.ArrayList;
+
+import kr.ac.tukorea.ge.spgp.termproject.BuildConfig;
+import kr.ac.tukorea.ge.spgp.termproject.framework.interfaces.IGameObject;
+import kr.ac.tukorea.ge.spgp.termproject.framework.scene.Scene;
 
 //import android.util.AttributeSet;
 

@@ -1,10 +1,13 @@
-package kr.ac.tukorea.ge.spgp.termproject;
+package kr.ac.tukorea.ge.spgp.termproject.framework.scene;
 
 import android.graphics.Canvas;
 import android.view.MotionEvent;
 import android.util.Log;
 
 import java.util.ArrayList;
+
+import kr.ac.tukorea.ge.spgp.termproject.framework.activity.GameActivity;
+import kr.ac.tukorea.ge.spgp.termproject.framework.interfaces.IGameObject;
 
 public class Scene {
     private static ArrayList<Scene> stack = new ArrayList<>();

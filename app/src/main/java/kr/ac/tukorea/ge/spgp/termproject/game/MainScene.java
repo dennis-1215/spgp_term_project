@@ -1,10 +1,9 @@
-package kr.ac.tukorea.ge.spgp.termproject;
+package kr.ac.tukorea.ge.spgp.termproject.game;
 
-import android.content.res.Resources;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.util.Log;
 import android.view.MotionEvent;
+
+import kr.ac.tukorea.ge.spgp.termproject.framework.view.Metrics;
+import kr.ac.tukorea.ge.spgp.termproject.framework.scene.Scene;
 
 
 public class MainScene extends Scene {

@@ -1,11 +1,16 @@
-package kr.ac.tukorea.ge.spgp.termproject;
+package kr.ac.tukorea.ge.spgp.termproject.game;
 
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.RectF;
 
-public class Player implements IGameObject{
+import kr.ac.tukorea.ge.spgp.termproject.R;
+import kr.ac.tukorea.ge.spgp.termproject.framework.res.BitmapPool;
+import kr.ac.tukorea.ge.spgp.termproject.framework.interfaces.IGameObject;
+import kr.ac.tukorea.ge.spgp.termproject.framework.view.Metrics;
+import kr.ac.tukorea.ge.spgp.termproject.framework.scene.Scene;
+
+public class Player implements IGameObject {
     private Bitmap bitmap;
     private RectF dstRect = new RectF();
     private static final float BULLET_INTERVAL = 1.0f/3.0f;

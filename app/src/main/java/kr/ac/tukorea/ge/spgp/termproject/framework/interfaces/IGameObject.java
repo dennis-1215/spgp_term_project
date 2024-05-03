@@ -1,4 +1,4 @@
-package kr.ac.tukorea.ge.spgp.termproject;
+package kr.ac.tukorea.ge.spgp.termproject.framework.interfaces;
 
 import android.graphics.Canvas;
 

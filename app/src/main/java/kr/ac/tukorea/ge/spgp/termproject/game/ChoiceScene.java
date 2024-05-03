@@ -1,8 +1,10 @@
-package kr.ac.tukorea.ge.spgp.termproject;
+package kr.ac.tukorea.ge.spgp.termproject.game;
 
 import android.view.MotionEvent;
 
 import java.util.Random;
+
+import kr.ac.tukorea.ge.spgp.termproject.framework.scene.Scene;
 
 public class ChoiceScene extends Scene {
     private static final String TAG = ChoiceScene.class.getSimpleName();

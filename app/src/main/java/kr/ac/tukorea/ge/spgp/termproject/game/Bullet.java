@@ -1,8 +1,10 @@
-package kr.ac.tukorea.ge.spgp.termproject;
+package kr.ac.tukorea.ge.spgp.termproject.game;
 
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
+
+import kr.ac.tukorea.ge.spgp.termproject.framework.interfaces.IGameObject;
 
 public class Bullet implements IGameObject {
     private static final float SPEED = 15.0f;

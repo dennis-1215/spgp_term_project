@@ -1,9 +1,12 @@
-package kr.ac.tukorea.ge.spgp.termproject;
+package kr.ac.tukorea.ge.spgp.termproject.game;
 
 import android.graphics.Canvas;
 import android.graphics.RectF;
 
 import java.util.Random;
+
+import kr.ac.tukorea.ge.spgp.termproject.framework.interfaces.IGameObject;
+import kr.ac.tukorea.ge.spgp.termproject.framework.view.Metrics;
 
 public class Monster implements IGameObject {
     private final RectF dstRect = new RectF();

@@ -1,14 +1,13 @@
-package kr.ac.tukorea.ge.spgp.termproject;
+package kr.ac.tukorea.ge.spgp.termproject.framework.activity;
 
 import android.os.Bundle;
 import android.util.AttributeSet;
 
-import androidx.activity.EdgeToEdge;
 import androidx.activity.OnBackPressedCallback;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.graphics.Insets;
-import androidx.core.view.ViewCompat;
-import androidx.core.view.WindowInsetsCompat;
+
+import kr.ac.tukorea.ge.spgp.termproject.framework.view.GameView;
+import kr.ac.tukorea.ge.spgp.termproject.game.MainScene;
 
 public class GameActivity extends AppCompatActivity {
     public static GameActivity activity;

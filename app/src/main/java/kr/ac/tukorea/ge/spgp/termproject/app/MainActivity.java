@@ -1,14 +1,13 @@
-package kr.ac.tukorea.ge.spgp.termproject;
+package kr.ac.tukorea.ge.spgp.termproject.app;
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 
-import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.graphics.Insets;
-import androidx.core.view.ViewCompat;
-import androidx.core.view.WindowInsetsCompat;
+
+import kr.ac.tukorea.ge.spgp.termproject.framework.activity.GameActivity;
+import kr.ac.tukorea.ge.spgp.termproject.R;
 
 public class MainActivity extends AppCompatActivity {
 

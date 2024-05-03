@@ -1,10 +1,12 @@
-package kr.ac.tukorea.ge.spgp.termproject;
+package kr.ac.tukorea.ge.spgp.termproject.game;
 
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.RectF;
 
-import java.util.Random;
+import kr.ac.tukorea.ge.spgp.termproject.R;
+import kr.ac.tukorea.ge.spgp.termproject.framework.res.BitmapPool;
+import kr.ac.tukorea.ge.spgp.termproject.framework.view.Metrics;
 
 public class MonsterA extends Monster {
     private static Bitmap bitmap;
