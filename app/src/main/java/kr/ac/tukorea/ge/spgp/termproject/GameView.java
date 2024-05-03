@@ -22,24 +22,47 @@ import java.util.ArrayList;
 public class GameView extends View implements Choreographer.FrameCallback {
     private static final String TAG = GameView.class.getSimpleName();
     private Activity activity;
+    public static final float SCREEN_WIDTH = 9.0f;
+    public static final float SCREEN_HEIGHT = 16.0f;
 
-    private final ArrayList<IGameObject> gameObjects = new ArrayList<>();
-    private final Player player;
+    // Debug Helper
+    private Paint borderPaint;
+    private Paint fpsPaint;
+    private final RectF borderRect = new RectF(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT);
 
-
-    public GameView(Context context, AttributeSet attr){
-        super(context, attr);
-        this.activity = (Activity) context;
-
+    private void initDebugObjects(){
+        borderPaint = new Paint();
         borderPaint.setStyle(Paint.Style.STROKE);
         borderPaint.setStrokeWidth(0.1f);
         borderPaint.setColor(Color.RED);
 
+        fpsPaint = new Paint();
         fpsPaint.setColor(Color.BLUE);
         fpsPaint.setTextSize(100f);
+    }
+
+    // View Constructor
+    public GameView(Context context, AttributeSet attr){
+        super(context, attr);
+        if(context instanceof Activity) {
+            this.activity = (Activity) context;
+        }
 
         setFullScreen(); // default behavior?
 
+        if(BuildConfig.DEBUG){
+            initDebugObjects();
+        }
+
+        initGame();
+        scheduleUpdate();
+    }
+
+    // Game Objects
+    private final ArrayList<IGameObject> gameObjects = new ArrayList<>();
+    private Player player;
+
+    private void initGame(){
         Resources res = getResources();
         Bitmap monsterBitmapA = BitmapFactory.decodeResource(res, R.mipmap.monster_a);
         Bitmap monsterBitmapB = BitmapFactory.decodeResource(res, R.mipmap.monster_b);
@@ -54,18 +77,15 @@ public class GameView extends View implements Choreographer.FrameCallback {
         Bitmap fighterBitmap = BitmapFactory.decodeResource(res, R.mipmap.playersprite);
         this.player = new Player(fighterBitmap);
         gameObjects.add(player);
-
-        scheduleUpdate();
     }
 
-    // Handler is android.os.Handler.
-    // do not import java.util.logging.Handler
+    // Game Loop
+    private long previousNanos = 0;
+    private float elapsedSeconds;
     private void scheduleUpdate() {
         Choreographer.getInstance().postFrameCallback(this);
     }
 
-    private long previousNanos = 0;
-    private float elapsedSeconds;
     @Override
     public void doFrame(long nanos) {
         long elapsedNanos = nanos - previousNanos;
@@ -80,6 +100,31 @@ public class GameView extends View implements Choreographer.FrameCallback {
         previousNanos = nanos;
     };
 
+    private void update() {
+        for(IGameObject gameObject : gameObjects){
+            gameObject.update(elapsedSeconds);
+        }
+    }
+
+    @Override
+    protected void onDraw(Canvas canvas) {
+        super.onDraw(canvas);
+        canvas.save();
+        canvas.concat(transformMatrix);
+        if(BuildConfig.DEBUG) {
+            canvas.drawRect(borderRect, borderPaint);
+        }
+        for (IGameObject gameObject : gameObjects) {
+            gameObject.draw(canvas);
+        }
+        canvas.restore();
+        if (BuildConfig.DEBUG) {
+            int fps = (int) (1.0f / elapsedSeconds);
+            canvas.drawText("FPS: " + fps, 100f, 200f, fpsPaint);
+        }
+    }
+
+    // Utilities
     public void setFullScreen() {
         int flags = View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY |
                 View.SYSTEM_UI_FLAG_FULLSCREEN |
@@ -98,12 +143,11 @@ public class GameView extends View implements Choreographer.FrameCallback {
         return null;
     }
 
-    public static final float SCREEN_WIDTH = 9.0f;
-    public   static final float SCREEN_HEIGHT = 16.0f;
+
+    // coorrdinate System
     private final Matrix transformMatrix = new Matrix();
-    private final RectF borderRect = new RectF(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT);
-    private final Paint borderPaint = new Paint();
-    private final Paint fpsPaint = new Paint();
+    private final Matrix invertedMatrix = new Matrix();
+    private final float[] pointsBuffer = new float[2];
 
     @Override
     protected void onSizeChanged(int w, int h, int oldw, int oldh) {
@@ -121,23 +165,11 @@ public class GameView extends View implements Choreographer.FrameCallback {
             transformMatrix.setTranslate(0, (h - w / game_ratio) / 2);
             transformMatrix.preScale(scale, scale);
         }
+        transformMatrix.invert(invertedMatrix);
     }
 
-    @Override
-    protected void onDraw(Canvas canvas) {
-        super.onDraw(canvas);
-        canvas.save();
-        canvas.concat(transformMatrix);
-        canvas.drawRect(borderRect, borderPaint);
-        for(IGameObject gameObject : gameObjects){
-            gameObject.draw(canvas);
-        }
-        canvas.restore();
 
-        int fps = (int) (1.0f / elapsedSeconds);
-        canvas.drawText("FPS: " + fps, 100f, 200f, fpsPaint);
-    }
-
+    // Touch Event
     @Override
     public boolean onTouchEvent(MotionEvent event) {
         if (event.getAction() == MotionEvent.ACTION_DOWN) {
@@ -145,11 +177,5 @@ public class GameView extends View implements Choreographer.FrameCallback {
             invalidate();
         }
         return super.onTouchEvent(event);
-    }
-
-    private void update() {
-        for(IGameObject gameObject : gameObjects){
-            gameObject.update(elapsedSeconds);
-        }
     }
 }
