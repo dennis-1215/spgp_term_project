@@ -1,22 +1,18 @@
 package kr.ac.tukorea.ge.spgp.termproject;
 
-import android.app.Activity;
 import android.content.Context;
-import android.content.ContextWrapper;
 import android.content.res.Resources;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.RectF;
-import android.util.AttributeSet;
 import android.view.Choreographer;
 import android.view.MotionEvent;
 import android.view.View;
 
 import java.util.ArrayList;
 
+//import android.util.AttributeSet;
 
 public class GameView extends View implements Choreographer.FrameCallback {
     private static final String TAG = GameView.class.getSimpleName();
@@ -24,7 +20,6 @@ public class GameView extends View implements Choreographer.FrameCallback {
     // Debug Helper
     private Paint borderPaint;
     private Paint fpsPaint;
-    private final RectF borderRect = new RectF(0, 0, Metrics.SCREEN_WIDTH, Metrics.SCREEN_HEIGHT);
 
     private void initDebugObjects(){
         borderPaint = new Paint();
@@ -97,7 +92,7 @@ public class GameView extends View implements Choreographer.FrameCallback {
         canvas.save();
         Metrics.concat(canvas);
         if(BuildConfig.DEBUG) {
-            canvas.drawRect(borderRect, borderPaint);
+            canvas.drawRect(Metrics.borderRect, borderPaint);
         }
 
         scene.draw(canvas);

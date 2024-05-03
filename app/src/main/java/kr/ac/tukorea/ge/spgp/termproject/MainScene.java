@@ -12,21 +12,14 @@ public class MainScene extends Scene {
     private final Player player;
 
     public MainScene() {
-        Resources res = GameView.res;
-        Bitmap monsterBitmapA = BitmapFactory.decodeResource(res, R.mipmap.monster_a);
-        Bitmap monsterBitmapB = BitmapFactory.decodeResource(res, R.mipmap.monster_b);
-
-        MonsterA.setBitmap(monsterBitmapA);
-        MonsterB.setBitmap(monsterBitmapB);
+        Metrics.setGameSize(20.0f, 20.0f);
 
         for(int i = 0; i < 10; i++){
             gameObjects.add(Monster.random());
         }
 
-        Bitmap playerBitmap = BitmapFactory.decodeResource(res, R.mipmap.playersprite);
-        this.player = new Player(playerBitmap);
+        this.player = new Player();
         gameObjects.add(player);
-        Log.d(TAG, "Loaded playerBitmap = " + playerBitmap);
     }
 
     @Override

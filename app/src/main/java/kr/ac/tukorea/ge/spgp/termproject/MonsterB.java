@@ -7,23 +7,19 @@ import android.graphics.RectF;
 import java.util.Random;
 
 public class MonsterB extends Monster {
-
+    private static Bitmap bitmap;
     private final RectF dstRect = new RectF();
     private static final float MONSTER_OFFSET = 1.0f;
     private static final float SPEED = 2.0f;
     private float dx, dy;
 
     public MonsterB(float centerX, float centerY, float dx, float dy) {
-        super(centerX, centerY);
         dstRect.set(centerX - MONSTER_OFFSET, centerY - MONSTER_OFFSET,
                 centerX + MONSTER_OFFSET, centerY + MONSTER_OFFSET);
         this.dx = SPEED*dx;
         this.dy = SPEED*dy;
-    }
 
-    private static Bitmap bitmap;
-    public static void setBitmap(Bitmap bitmap) { // Alt+Insert -> Setter
-        MonsterB.bitmap = bitmap;
+        bitmap = BitmapPool.get(R.mipmap.monster_b);
     }
 
     public void update(float elapsedSeconds) {
@@ -31,7 +27,7 @@ public class MonsterB extends Monster {
         float timeDy = this.dy * elapsedSeconds;
         dstRect.offset(timeDx, timeDy);
         if (dy > 0) {
-            if (dstRect.bottom > Metrics.SCREEN_HEIGHT) {
+            if (dstRect.bottom > Metrics.height) {
                 dy = 0;
             }
         }

@@ -1,18 +1,22 @@
 package kr.ac.tukorea.ge.spgp.termproject;
 
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.RectF;
 
 public class Player implements IGameObject{
     private Bitmap bitmap;
     private RectF dstRect = new RectF();
-    public Player(Bitmap bitmap) {
-        float cx = 4.5f, y = 12.0f;
-        float r = 1.0f;
-        dstRect.set(cx-r, y, cx+r, y+2*r);
+    private float tx, ty, dx, dy;
+    private float x, y, offset;
 
-        this.bitmap = bitmap;
+    public Player() {
+        x = Metrics.width / 2;
+        y = 2 * Metrics.height / 3;
+        dstRect.set(x-offset, y-offset, x+offset, y+offset);
+
+        this.bitmap = BitmapPool.get(R.mipmap.playersprite);
     }
 
     @Override
