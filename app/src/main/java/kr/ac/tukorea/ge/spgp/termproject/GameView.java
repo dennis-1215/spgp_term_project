@@ -23,7 +23,7 @@ public class GameView extends View implements Choreographer.FrameCallback {
     private static final String TAG = GameView.class.getSimpleName();
     private Activity activity;
 
-    private final ArrayList<Monster> monsters = new ArrayList<>();
+    private final ArrayList<IGameObject> gameObjects = new ArrayList<>();
     private final Player player;
 
 
@@ -48,11 +48,12 @@ public class GameView extends View implements Choreographer.FrameCallback {
         MonsterB.setBitmap(monsterBitmapB);
 
         for(int i = 0; i < 10; i++){
-            monsters.add(Monster.random());
+            gameObjects.add(Monster.random());
         }
 
         Bitmap fighterBitmap = BitmapFactory.decodeResource(res, R.mipmap.playersprite);
         this.player = new Player(fighterBitmap);
+        gameObjects.add(player);
 
         scheduleUpdate();
     }
@@ -128,10 +129,9 @@ public class GameView extends View implements Choreographer.FrameCallback {
         canvas.save();
         canvas.concat(transformMatrix);
         canvas.drawRect(borderRect, borderPaint);
-        for(Monster monster : monsters){
-            monster.draw(canvas);
+        for(IGameObject gameObject : gameObjects){
+            gameObject.draw(canvas);
         }
-        player.draw(canvas);
         canvas.restore();
 
         int fps = (int) (1.0f / elapsedSeconds);
@@ -148,8 +148,8 @@ public class GameView extends View implements Choreographer.FrameCallback {
     }
 
     private void update() {
-        for(Monster monster : monsters){
-            monster.update(elapsedSeconds);
+        for(IGameObject gameObject : gameObjects){
+            gameObject.update(elapsedSeconds);
         }
     }
 }

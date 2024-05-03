@@ -4,7 +4,7 @@ import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.RectF;
 
-public class Player {
+public class Player implements IGameObject{
     private Bitmap bitmap;
     private RectF dstRect = new RectF();
     public Player(Bitmap bitmap) {
@@ -15,9 +15,11 @@ public class Player {
         this.bitmap = bitmap;
     }
 
-    public void update() {
+    @Override
+    public void update(float elapsedSeconds) {
     }
 
+    @Override
     public void draw(Canvas canvas) {
         canvas.drawBitmap(bitmap, null, dstRect, null);
     }

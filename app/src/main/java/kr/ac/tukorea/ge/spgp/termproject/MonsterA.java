@@ -14,7 +14,7 @@ public class MonsterA extends Monster {
     private float dx, dy;
 
     public MonsterA(float centerX, float centerY, float dx, float dy) {
-        super(centerX, centerY, dx, dy);
+        super(centerX, centerY);
         dstRect.set(centerX - MONSTER_OFFSET, centerY - MONSTER_OFFSET,
                 centerX + MONSTER_OFFSET, centerY + MONSTER_OFFSET);
         this.dx = SPEED*dx;

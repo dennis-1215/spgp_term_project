@@ -10,11 +10,11 @@ public class MonsterB extends Monster {
 
     private final RectF dstRect = new RectF();
     private static final float MONSTER_OFFSET = 1.0f;
-    private static final float SPEED = 1.0f;
+    private static final float SPEED = 2.0f;
     private float dx, dy;
 
     public MonsterB(float centerX, float centerY, float dx, float dy) {
-        super(centerX, centerY, dx, dy);
+        super(centerX, centerY);
         dstRect.set(centerX - MONSTER_OFFSET, centerY - MONSTER_OFFSET,
                 centerX + MONSTER_OFFSET, centerY + MONSTER_OFFSET);
         this.dx = SPEED*dx;
