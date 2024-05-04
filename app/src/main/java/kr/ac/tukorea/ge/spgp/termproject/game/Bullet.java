@@ -29,7 +29,7 @@ public class Bullet extends Sprite implements IBoxCollidable {
     public void update(float elapsedSeconds) {
         super.update(elapsedSeconds);
         if (dstRect.bottom < 0 || dstRect.left > Metrics.width || dstRect.right < 0 ) {
-            Scene.top().remove(MainScene.Layer.bullet.ordinal(), this);
+            Scene.top().remove(MainScene.Layer.bullet, this);
         }
     }
 

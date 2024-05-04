@@ -101,11 +101,16 @@ public class Scene {
         return count;
     }
 
-    protected void initLayers(int layerCount) {
+    protected <E extends Enum<E>> void initLayers(E enumCount) {
         layers = new ArrayList<>();
+        int layerCount = enumCount.ordinal();
         for (int i = 0; i < layerCount; i++) {
             layers.add(new ArrayList<>());
         }
+    }
+
+    public <E extends Enum<E>> ArrayList<IGameObject> objectsAt(E layerEnum) {
+        return layers.get(layerEnum.ordinal());
     }
 
     public void update(float elapsedSeconds) {
@@ -177,12 +182,12 @@ public class Scene {
     }
 
     // Game Object Management
-    public void add(int layerIndex, IGameObject gameObject) {
-        ArrayList<IGameObject> objects = layers.get(layerIndex);
+    public <E extends Enum<E>> void add(E layer, IGameObject gameObject) {
+        ArrayList<IGameObject> objects = layers.get(layer.ordinal());
         objects.add(gameObject);
     }
-    public void remove(int layerIndex, IGameObject gameObject) {
-        ArrayList<IGameObject> objects = layers.get(layerIndex);
+    public <E extends Enum<E>> void remove(E layer, IGameObject gameObject) {
+        ArrayList<IGameObject> objects = layers.get(layer.ordinal());
         objects.remove(gameObject);
     }
 }

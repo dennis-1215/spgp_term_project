@@ -23,7 +23,7 @@ public class EnemyGenerator implements IGameObject {
         Scene scene = Scene.top();
 
         int level = random.nextInt(3);
-        scene.add(MainScene.Layer.enemy.ordinal(), Enemy.get(level));
+        scene.add(MainScene.Layer.enemy, Enemy.get(level));
     }
 
     @Override

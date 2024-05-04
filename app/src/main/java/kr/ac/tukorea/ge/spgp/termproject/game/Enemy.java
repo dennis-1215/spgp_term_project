@@ -28,6 +28,14 @@ public class Enemy extends Sprite implements IBoxCollidable {
     }
 
     @Override
+    public void update(float elapsedSeconds){
+        super.update(elapsedSeconds);
+        if(dstRect.bottom > Metrics.height * 8.5 / 10){
+            dy = 0;
+        }
+    }
+
+    @Override
     public RectF getCollisionRect() {
         return dstRect;
     }

@@ -43,7 +43,7 @@ public class Player extends AnimSprite {
     }
 
     private void fireBall() {
-        Scene.top().add(MainScene.Layer.bullet.ordinal(), Bullet.get(x, y, Math.toRadians(targetAngle)));
+        Scene.top().add(MainScene.Layer.bullet, Bullet.get(x, y, Math.toRadians(targetAngle)));
     }
 
     @Override

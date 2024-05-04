@@ -20,36 +20,20 @@ public class MainScene extends Scene {
     }
 
     public MainScene() {
-        initLayers(Layer.COUNT.ordinal());
+        initLayers(Layer.COUNT);
 
-        add(Layer.controller.ordinal(), new EnemyGenerator());
-        add(Layer.castle.ordinal(), new Castle());
+        add(Layer.controller, new EnemyGenerator());
+        add(Layer.controller, new CollisionChecker());
+
+
+        add(Layer.castle, new Castle());
         this.player = new Player();
-        add(Layer.player.ordinal(), player);
+        add(Layer.player, player);
     }
 
     @Override
     public void update(float elapsedSeconds) {
         super.update(elapsedSeconds);
-        checkCollision();
-    }
-
-    private void checkCollision() {
-        ArrayList<IGameObject> enemies = layers.get(Layer.enemy.ordinal());
-        for (int e = enemies.size() - 1; e >= 0; e--) {
-            Enemy enemy = (Enemy)enemies.get(e);
-            ArrayList<IGameObject> bullets = layers.get(Layer.bullet.ordinal());
-            for (int b = bullets.size() - 1; b >= 0; b--) {
-                Bullet bullet = (Bullet)bullets.get(b);
-                if (CollisionHelper.collides(enemy, bullet)) {
-                    Log.d(TAG, "Collision !!");
-                    remove(Layer.bullet.ordinal(), bullet);
-                    remove(Layer.enemy.ordinal(), enemy);
-//                    removed = true;
-                    break;
-                }
-            }
-        }
     }
 
     @Override
