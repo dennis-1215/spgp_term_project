@@ -3,9 +3,9 @@ package kr.ac.tukorea.ge.spgp.termproject.game;
 import android.util.Log;
 import android.view.MotionEvent;
 
-import kr.ac.tukorea.ge.spgp.termproject.R;
+import java.util.ArrayList;
+
 import kr.ac.tukorea.ge.spgp.termproject.framework.interfaces.IGameObject;
-import kr.ac.tukorea.ge.spgp.termproject.framework.objects.AnimSprite;
 import kr.ac.tukorea.ge.spgp.termproject.framework.util.CollisionHelper;
 import kr.ac.tukorea.ge.spgp.termproject.framework.view.Metrics;
 import kr.ac.tukorea.ge.spgp.termproject.framework.scene.Scene;
@@ -15,11 +15,17 @@ public class MainScene extends Scene {
     private static final String TAG = MainScene.class.getSimpleName();
     private final Player player;
 
-    public MainScene() {
-        add(new EnemyGenerator());
+    public enum Layer {
+        enemy, bullet, castle, player, controller, COUNT
+    }
 
+    public MainScene() {
+        initLayers(Layer.COUNT.ordinal());
+
+        add(Layer.controller.ordinal(), new EnemyGenerator());
+        add(Layer.castle.ordinal(), new Castle());
         this.player = new Player();
-        add(player);
+        add(Layer.player.ordinal(), player);
     }
 
     @Override
@@ -29,29 +35,16 @@ public class MainScene extends Scene {
     }
 
     private void checkCollision() {
-        int count = gameObjects.size();
-        for (int i1 = count - 1; i1 >= 0; i1--) {
-            count = gameObjects.size();
-            if (i1 >= count) {
-                i1 = count - 1; // enemy 와 bullet 이 모두 삭제된 경우에는 count 가 더 많이 줄었을 수도 있다.
-            }
-            IGameObject o1 = gameObjects.get(i1);
-            if (!(o1 instanceof Enemy)) {
-                continue;
-            }
-            Enemy enemy = (Enemy) o1;
-//            boolean removed = false;
-            count = gameObjects.size();
-            for (int i2 = count - 1; i2 >= 0; i2--) {
-                IGameObject o2 = gameObjects.get(i2);
-                if (!(o2 instanceof Bullet)) {
-                    continue;
-                }
-                Bullet bullet = (Bullet) o2;
+        ArrayList<IGameObject> enemies = layers.get(Layer.enemy.ordinal());
+        for (int e = enemies.size() - 1; e >= 0; e--) {
+            Enemy enemy = (Enemy)enemies.get(e);
+            ArrayList<IGameObject> bullets = layers.get(Layer.bullet.ordinal());
+            for (int b = bullets.size() - 1; b >= 0; b--) {
+                Bullet bullet = (Bullet)bullets.get(b);
                 if (CollisionHelper.collides(enemy, bullet)) {
                     Log.d(TAG, "Collision !!");
-                    remove(bullet);
-                    remove(enemy);
+                    remove(Layer.bullet.ordinal(), bullet);
+                    remove(Layer.enemy.ordinal(), enemy);
 //                    removed = true;
                     break;
                 }

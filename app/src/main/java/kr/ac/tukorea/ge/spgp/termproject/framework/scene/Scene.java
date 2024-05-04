@@ -91,30 +91,43 @@ public class Scene {
     }
 
 
-    protected final ArrayList<IGameObject> gameObjects = new ArrayList<>();
+    protected ArrayList<ArrayList<IGameObject>> layers = new ArrayList<>();
 
     public int count() {
-        return gameObjects.size();
+        int count = 0;
+        for (ArrayList<IGameObject> objects : layers) {
+            count += objects.size();
+        }
+        return count;
+    }
+
+    protected void initLayers(int layerCount) {
+        layers = new ArrayList<>();
+        for (int i = 0; i < layerCount; i++) {
+            layers.add(new ArrayList<>());
+        }
     }
 
     public void update(float elapsedSeconds) {
-        int count = gameObjects.size();
         float nearestY = 0.0f;
         Enemy enemy = null;
-        for (int i = count - 1; i >= 0; i--) {
-            IGameObject gameObject = gameObjects.get(i);
-            gameObject.update(elapsedSeconds);
+        for (ArrayList<IGameObject> objects : layers) {
+            int count = objects.size();
+            for (int i = count - 1; i >= 0; i--) {
+                IGameObject gameObject = objects.get(i);
+                gameObject.update(elapsedSeconds);
 
-            if(player == null) {
-                if (gameObject.getClass().getSimpleName().equals("Player")) {
-                    player = (Player) gameObject;
+                if (player == null) {
+                    if (gameObject.getClass().getSimpleName().equals("Player")) {
+                        player = (Player) gameObject;
+                    }
                 }
-            }
-            if(gameObject.getClass().getSimpleName().equals("Enemy")) {
-                enemy = (Enemy) gameObject;
-                if(enemy.getPosition()[1] > nearestY ){
-                    nearestY = enemy.getPosition()[1];
-                    player.setNearEnemyPos(enemy.getPosition());
+                if (gameObject.getClass().getSimpleName().equals("Enemy")) {
+                    enemy = (Enemy) gameObject;
+                    if (enemy.getPosition()[1] > nearestY) {
+                        nearestY = enemy.getPosition()[1];
+                        player.setNearEnemyPos(enemy.getPosition());
+                    }
                 }
             }
         }
@@ -122,8 +135,10 @@ public class Scene {
 
     protected static Paint bboxPaint;
     public void draw(Canvas canvas) {
-        for (IGameObject gameObject : gameObjects) {
-            gameObject.draw(canvas);
+        for (ArrayList<IGameObject> objects: layers) {
+            for (IGameObject gobj : objects) {
+                gobj.draw(canvas);
+            }
         }
         if (BuildConfig.DEBUG) {
             if (bboxPaint == null) {
@@ -131,10 +146,12 @@ public class Scene {
                 bboxPaint.setStyle(Paint.Style.STROKE);
                 bboxPaint.setColor(Color.RED);
             }
-            for (IGameObject gobj : gameObjects) {
-                if (gobj instanceof IBoxCollidable) {
-                    RectF rect = ((IBoxCollidable) gobj).getCollisionRect();
-                    canvas.drawRect(rect, bboxPaint);
+            for (ArrayList<IGameObject> objects: layers) {
+                for (IGameObject gobj : objects) {
+                    if (gobj instanceof IBoxCollidable) {
+                        RectF rect = ((IBoxCollidable) gobj).getCollisionRect();
+                        canvas.drawRect(rect, bboxPaint);
+                    }
                 }
             }
         }
@@ -160,12 +177,12 @@ public class Scene {
     }
 
     // Game Object Management
-    public void add(IGameObject gameObject) {
-        gameObjects.add(gameObject);
-        Log.d(TAG, gameObjects.size() + " objects in " + this);
+    public void add(int layerIndex, IGameObject gameObject) {
+        ArrayList<IGameObject> objects = layers.get(layerIndex);
+        objects.add(gameObject);
     }
-    public void remove(IGameObject gameObject) {
-        gameObjects.remove(gameObject);
-        Log.d(TAG, gameObjects.size() + " objects in [-]" + getClass().getSimpleName());
+    public void remove(int layerIndex, IGameObject gameObject) {
+        ArrayList<IGameObject> objects = layers.get(layerIndex);
+        objects.remove(gameObject);
     }
 }

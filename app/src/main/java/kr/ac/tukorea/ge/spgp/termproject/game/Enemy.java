@@ -16,11 +16,15 @@ public class Enemy extends Sprite implements IBoxCollidable {
     private static final int[] resIds = {
             R.mipmap.monster_a, R.mipmap.monster_b, R.mipmap.monster_c
     };
-    public Enemy(int level) {
+    private Enemy(int level) {
         super(resIds[level]);
         setPosition( Metrics.width * random.nextFloat(), -RADIUS, RADIUS);
         
         dy = SPEED * (level+1);
+    }
+
+    public static Enemy get(int level){
+        return new Enemy(level);
     }
 
     @Override
