@@ -37,4 +37,8 @@ public class Bullet extends Sprite implements IBoxCollidable {
     public RectF getCollisionRect() {
         return dstRect;
     }
+
+    public int getPower() {
+        return 10;
+    }
 }

@@ -26,8 +26,10 @@ public class CollisionChecker implements IGameObject {
                 if (CollisionHelper.collides(enemy, bullet)) {
                     Log.d(TAG, "Collision !!");
                     scene.remove(MainScene.Layer.bullet, bullet);
-                    scene.remove(MainScene.Layer.enemy, enemy);
-//                    removed = true;
+                    boolean dead = enemy.decreaseLife(bullet.getPower());
+                    if (dead) {
+                        scene.remove(MainScene.Layer.enemy, enemy);
+                    }
                     break;
                 }
             }

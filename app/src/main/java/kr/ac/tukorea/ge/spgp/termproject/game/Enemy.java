@@ -16,10 +16,11 @@ public class Enemy extends Sprite implements IBoxCollidable {
     private static final int[] resIds = {
             R.mipmap.monster_a, R.mipmap.monster_b, R.mipmap.monster_c
     };
+    private int life, maxLife;
     private Enemy(int level) {
         super(resIds[level]);
         setPosition( Metrics.width * random.nextFloat(), -RADIUS, RADIUS);
-        
+        this.life = this.maxLife = (3 - level) * 10;
         dy = SPEED * (level+1);
     }
 
@@ -38,5 +39,11 @@ public class Enemy extends Sprite implements IBoxCollidable {
     @Override
     public RectF getCollisionRect() {
         return dstRect;
+    }
+
+
+    public boolean decreaseLife(int power) {
+        life -= power;
+        return life <= 0;
     }
 }
