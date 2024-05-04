@@ -1,24 +1,56 @@
 package kr.ac.tukorea.ge.spgp.termproject.game;
 
+import android.graphics.Canvas;
+import android.graphics.Rect;
 import android.graphics.RectF;
 
 import java.util.Random;
 
 import kr.ac.tukorea.ge.spgp.termproject.R;
 import kr.ac.tukorea.ge.spgp.termproject.framework.interfaces.IBoxCollidable;
-import kr.ac.tukorea.ge.spgp.termproject.framework.objects.Sprite;
+import kr.ac.tukorea.ge.spgp.termproject.framework.objects.AnimSprite;
 import kr.ac.tukorea.ge.spgp.termproject.framework.view.Metrics;
 
-public class Enemy extends Sprite implements IBoxCollidable {
+public class Enemy extends AnimSprite implements IBoxCollidable {
+    protected enum State {
+        running, attack
+    }
+    protected State state = State.running;
     public static final Random random = new Random();
     private static final float SPEED = 0.5f;
     private static final float RADIUS = 0.5f;
+
+    protected static Rect[][] srcRectsArray = {
+            new Rect[] {
+                    new Rect(0 + 32 * 0, 32, 32 + 32 * 0, 62),
+                    new Rect(0 + 32 * 1, 32, 32 + 32 * 1, 62),
+                    new Rect(0 + 32 * 2, 32, 32 + 32 * 2, 62),
+                    new Rect(0 + 32 * 3, 32, 32 + 32 * 3, 62),
+
+             },
+            new Rect[] {
+                    new Rect(0 + 32 * 0, 0, 32 + 32 * 0, 31),
+                    new Rect(0 + 32 * 1, 0, 32 + 32 * 1, 31),
+                    new Rect(0 + 32 * 2, 0, 32 + 32 * 2, 31),
+                    new Rect(0 + 32 * 3, 0, 32 + 32 * 3, 31),
+            },
+    };
+
+    @Override
+    public void draw(Canvas canvas) {
+        long now = System.currentTimeMillis();
+        float time = (now - createdOn) / 1000.0f;
+        Rect[] rects = srcRectsArray[state.ordinal()];
+        int frameIndex = Math.round(time * fps) % rects.length;
+        canvas.drawBitmap(bitmap, rects[frameIndex], dstRect, null);
+    }
+
     private static final int[] resIds = {
             R.mipmap.monster_a, R.mipmap.monster_b, R.mipmap.monster_c
     };
     private int life, maxLife;
     private Enemy(int level) {
-        super(resIds[level]);
+        super(resIds[level], 8);
         setPosition( Metrics.width * random.nextFloat(), -RADIUS, RADIUS);
         this.life = this.maxLife = (3 - level) * 10;
         dy = SPEED * (level+1);
@@ -33,6 +65,7 @@ public class Enemy extends Sprite implements IBoxCollidable {
         super.update(elapsedSeconds);
         if(dstRect.bottom > Metrics.height * 8.5 / 10){
             dy = 0;
+            state = State.attack;
         }
     }
 

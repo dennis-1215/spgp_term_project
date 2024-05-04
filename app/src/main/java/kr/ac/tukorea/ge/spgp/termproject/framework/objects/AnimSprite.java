@@ -7,10 +7,10 @@ import kr.ac.tukorea.ge.spgp.termproject.framework.res.BitmapPool;
 
 public class AnimSprite extends Sprite {
     protected Rect srcRect = new Rect();
-    private float fps;
-    private int frameWidth, frameHeight;
-    private int frameCount;
-    private final long createdOn;
+    protected float fps;
+    protected int frameWidth, frameHeight;
+    protected int frameCount;
+    protected final long createdOn;
 
     public AnimSprite(int mipmapId, float fps, int count) {
         super(0);
