@@ -6,39 +6,56 @@ import android.graphics.RectF;
 
 import kr.ac.tukorea.ge.spgp.termproject.R;
 import kr.ac.tukorea.ge.spgp.termproject.framework.res.BitmapPool;
-import kr.ac.tukorea.ge.spgp.termproject.framework.interfaces.IGameObject;
 import kr.ac.tukorea.ge.spgp.termproject.framework.view.Metrics;
 import kr.ac.tukorea.ge.spgp.termproject.framework.scene.Scene;
+import kr.ac.tukorea.ge.spgp.termproject.framework.objects.Sprite;
 
-public class Player implements IGameObject {
+public class Player extends Sprite {
     private Bitmap bitmap;
     private RectF dstRect = new RectF();
-    private static final float BULLET_INTERVAL = 1.0f/3.0f;
+    private RectF targetRect = new RectF();
+    private static final float BULLET_INTERVAL = 0.5f;
     private static final float offset = 1.25f;
-    private float x, y, angle;
-    private float bulletCoolTime;
+    private float bulletCoolTime = 1.0f;
+    private double targetAngle;
 
     public Player() {
-        x = Metrics.width / 2;
-        y = 4 * Metrics.height / 5;
-        angle = -90;
-        dstRect.set(x-offset, y-offset, x+offset, y+offset);
+        super(R.mipmap.playersprite);
+        setPosition(Metrics.width/2, Metrics.height * 7 / 8, offset);
 
-        this.bitmap = BitmapPool.get(R.mipmap.playersprite);
+        bitmap = BitmapPool.get(R.mipmap.playersprite);
     }
 
     @Override
     public void update(float elapsedSeconds) {
+        super.update(elapsedSeconds);
         bulletCoolTime -= elapsedSeconds;
         if (bulletCoolTime <= 0) {
-            Bullet bullet = new Bullet(x, y, (float) Math.toRadians(angle));
-            Scene.top().add(bullet);
+            fireBall();
             bulletCoolTime = BULLET_INTERVAL;
         }
     }
 
+    public void setNearEnemyRect(RectF rect){
+        targetRect = rect;
+        setTargetAngle();
+    }
+
+    private void setTargetAngle(){
+        float dx = (targetRect.centerX() - getPositionX());
+        float dy = (targetRect.centerY() - getPositionY());
+        targetAngle = Math.toDegrees(Math.acos(dx / Math.sqrt(dx*dx + dy*dy))) * dy / Math.abs(dy);
+    }
+
+    private void fireBall() {
+        Scene.top().add(new Bullet(x, y, Math.toRadians(targetAngle)));
+    }
+
     @Override
     public void draw(Canvas canvas) {
-        canvas.drawBitmap(bitmap, null, dstRect, null);
+        if (dx != 0) {
+            canvas.drawBitmap(bitmap, null, dstRect, null);
+        }
+        super.draw(canvas);
     }
 }

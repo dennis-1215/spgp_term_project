@@ -8,10 +8,13 @@ import java.util.ArrayList;
 
 import kr.ac.tukorea.ge.spgp.termproject.framework.activity.GameActivity;
 import kr.ac.tukorea.ge.spgp.termproject.framework.interfaces.IGameObject;
+import kr.ac.tukorea.ge.spgp.termproject.game.Monster;
+import kr.ac.tukorea.ge.spgp.termproject.game.Player;
 
 public class Scene {
     private static ArrayList<Scene> stack = new ArrayList<>();
     private static final String TAG = Scene.class.getSimpleName();
+    private Player player = null;
 
     public static Scene top() {
         int top = stack.size() - 1;
@@ -57,12 +60,27 @@ public class Scene {
     }
 
     protected final ArrayList<IGameObject> gameObjects = new ArrayList<>();
-
     public void update(float elapsedSeconds) {
         int count = gameObjects.size();
+        float nearestY = 0.0f;
+        Monster monster = null;
         for (int i = count - 1; i >= 0; i--) {
             IGameObject gameObject = gameObjects.get(i);
             gameObject.update(elapsedSeconds);
+
+            if(player == null) {
+                if (gameObject.getClass().getSimpleName().equals("Player")) {
+                    player = (Player) gameObject;
+                }
+            }
+            if(gameObject.getClass().getSimpleName().equals("MonsterA") ||
+                gameObject.getClass().getSimpleName().equals("MonsterB")){
+                monster = (Monster) gameObject;
+                if(monster.getDstRect().centerY() > nearestY ){
+                    nearestY = monster.getDstRect().centerY();
+                    player.setNearEnemyRect(monster.getDstRect());
+                }
+            }
         }
     }
 

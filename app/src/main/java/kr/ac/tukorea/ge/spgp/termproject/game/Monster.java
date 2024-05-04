@@ -24,6 +24,10 @@ public class Monster implements IGameObject {
         }
     }
 
+    public RectF getDstRect(){
+        return dstRect;
+    }
+
     @Override
     public void update(float elapsedSeconds) {
     }

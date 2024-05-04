@@ -24,6 +24,10 @@ public class MonsterB extends Monster {
         bitmap = BitmapPool.get(R.mipmap.monster_b);
     }
 
+    public RectF getDstRect(){
+        return dstRect;
+    }
+
     public void update(float elapsedSeconds) {
         float timeDx = this.dx * elapsedSeconds;
         float timeDy = this.dy * elapsedSeconds;

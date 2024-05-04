@@ -25,6 +25,14 @@ public class Sprite implements IGameObject {
         this.width = this.height = 2 * radius;
         dstRect.set(x - radius, y - radius, x + radius, y + radius);
     }
+
+    public float getPositionX() {
+        return this.x;
+    }
+    public float getPositionY() {
+        return this.y;
+    }
+
     public void setPosition(float x, float y, float width, float height) {
         this.x = x;
         this.y = y;
