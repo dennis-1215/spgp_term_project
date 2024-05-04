@@ -1,12 +1,15 @@
 package kr.ac.tukorea.ge.spgp.termproject.game;
 
+import android.graphics.RectF;
+
 import kr.ac.tukorea.ge.spgp.termproject.R;
+import kr.ac.tukorea.ge.spgp.termproject.framework.interfaces.IBoxCollidable;
 import kr.ac.tukorea.ge.spgp.termproject.framework.objects.Sprite;
 import kr.ac.tukorea.ge.spgp.termproject.framework.scene.Scene;
 import kr.ac.tukorea.ge.spgp.termproject.framework.view.Metrics;
 
 
-public class Bullet extends Sprite {
+public class Bullet extends Sprite implements IBoxCollidable {
     private static final float BULLET_WIDTH = 0.68f;
     private static final float BULLET_HEIGHT = BULLET_WIDTH * 40 / 28;
     private static final float SPEED = 20.0f;
@@ -26,4 +29,8 @@ public class Bullet extends Sprite {
         }
     }
 
+    @Override
+    public RectF getCollisionRect() {
+        return dstRect;
+    }
 }
