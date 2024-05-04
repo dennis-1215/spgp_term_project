@@ -19,7 +19,7 @@ public class Enemy extends Sprite implements IBoxCollidable {
     public Enemy(int level) {
         super(resIds[level]);
         setPosition( Metrics.width * random.nextFloat(), -RADIUS, RADIUS);
-
+        
         dy = SPEED * (level+1);
     }
 

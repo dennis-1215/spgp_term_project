@@ -5,22 +5,22 @@ import android.graphics.Canvas;
 import android.graphics.RectF;
 
 import kr.ac.tukorea.ge.spgp.termproject.R;
+import kr.ac.tukorea.ge.spgp.termproject.framework.objects.AnimSprite;
 import kr.ac.tukorea.ge.spgp.termproject.framework.res.BitmapPool;
 import kr.ac.tukorea.ge.spgp.termproject.framework.view.Metrics;
 import kr.ac.tukorea.ge.spgp.termproject.framework.scene.Scene;
-import kr.ac.tukorea.ge.spgp.termproject.framework.objects.Sprite;
 
-public class Player extends Sprite {
+public class Player extends AnimSprite {
     private Bitmap bitmap;
     private RectF dstRect = new RectF();
     private RectF targetRect = new RectF();
     private static final float BULLET_INTERVAL = 1.5f;
-    private static final float offset = 1.25f;
+    private static final float offset = 0.75f;
     private float bulletCoolTime = 1.0f;
     private double targetAngle;
 
     public Player() {
-        super(R.mipmap.playersprite);
+        super(R.mipmap.playersprite, 8, 4);
         setPosition(Metrics.width/2, Metrics.height * 7 / 8, offset);
 
         bitmap = BitmapPool.get(R.mipmap.playersprite);

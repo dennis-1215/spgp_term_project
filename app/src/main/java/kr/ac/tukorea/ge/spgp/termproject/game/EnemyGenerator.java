@@ -14,10 +14,14 @@ public class EnemyGenerator implements IGameObject {
     public void update(float elapsedSeconds) {
         enemyTime -= elapsedSeconds;
         if (enemyTime < 0) {
-            int level = random.nextInt(3);
-            Scene.top().add(new Enemy(level));
+            generate();
             enemyTime = random.nextFloat() + 0.5f;
         }
+    }
+
+    private void generate() {
+        int level = random.nextInt(3);
+        Scene.top().add(new Enemy(level));
     }
 
     @Override

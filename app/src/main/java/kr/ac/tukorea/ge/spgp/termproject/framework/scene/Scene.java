@@ -1,12 +1,17 @@
 package kr.ac.tukorea.ge.spgp.termproject.framework.scene;
 
 import android.graphics.Canvas;
+import android.graphics.Color;
+import android.graphics.Paint;
+import android.graphics.RectF;
 import android.view.MotionEvent;
 import android.util.Log;
 
 import java.util.ArrayList;
 
+import kr.ac.tukorea.ge.spgp.termproject.BuildConfig;
 import kr.ac.tukorea.ge.spgp.termproject.framework.activity.GameActivity;
+import kr.ac.tukorea.ge.spgp.termproject.framework.interfaces.IBoxCollidable;
 import kr.ac.tukorea.ge.spgp.termproject.framework.interfaces.IGameObject;
 import kr.ac.tukorea.ge.spgp.termproject.game.Enemy;
 import kr.ac.tukorea.ge.spgp.termproject.game.Player;
@@ -115,9 +120,23 @@ public class Scene {
         }
     }
 
+    protected static Paint bboxPaint;
     public void draw(Canvas canvas) {
         for (IGameObject gameObject : gameObjects) {
             gameObject.draw(canvas);
+        }
+        if (BuildConfig.DEBUG) {
+            if (bboxPaint == null) {
+                bboxPaint = new Paint();
+                bboxPaint.setStyle(Paint.Style.STROKE);
+                bboxPaint.setColor(Color.RED);
+            }
+            for (IGameObject gobj : gameObjects) {
+                if (gobj instanceof IBoxCollidable) {
+                    RectF rect = ((IBoxCollidable) gobj).getCollisionRect();
+                    canvas.drawRect(rect, bboxPaint);
+                }
+            }
         }
     }
 
