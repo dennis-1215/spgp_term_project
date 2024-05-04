@@ -14,7 +14,7 @@ public class Player extends Sprite {
     private Bitmap bitmap;
     private RectF dstRect = new RectF();
     private RectF targetRect = new RectF();
-    private static final float BULLET_INTERVAL = 0.5f;
+    private static final float BULLET_INTERVAL = 1.5f;
     private static final float offset = 1.25f;
     private float bulletCoolTime = 1.0f;
     private double targetAngle;
@@ -36,14 +36,9 @@ public class Player extends Sprite {
         }
     }
 
-    public void setNearEnemyRect(RectF rect){
-        targetRect = rect;
-        setTargetAngle();
-    }
-
-    private void setTargetAngle(){
-        float dx = (targetRect.centerX() - getPositionX());
-        float dy = (targetRect.centerY() - getPositionY());
+    public void setNearEnemyPos(float[] target){
+        float dx = (target[0] - getPosition()[0]);
+        float dy = (target[1] - getPosition()[1]);
         targetAngle = Math.toDegrees(Math.acos(dx / Math.sqrt(dx*dx + dy*dy))) * dy / Math.abs(dy);
     }
 

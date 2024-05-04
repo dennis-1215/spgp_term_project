@@ -31,4 +31,22 @@ public class GameActivity extends AppCompatActivity {
             gameView.onBackPressed();
         }
     };
+
+    @Override
+    protected void onPause() {
+        gameView.pauseGame();
+        super.onPause();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        gameView.resumeGame();
+    }
+
+    @Override
+    protected void onDestroy() {
+        gameView.destroyGame();
+        super.onDestroy();
+    }
 }

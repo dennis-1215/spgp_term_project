@@ -1,5 +1,7 @@
 package kr.ac.tukorea.ge.spgp.termproject.game;
 
+import android.graphics.RectF;
+
 import java.util.Random;
 
 import kr.ac.tukorea.ge.spgp.termproject.R;
@@ -17,6 +19,6 @@ public class Enemy extends Sprite {
         super(resIds[level]);
         setPosition( Metrics.width * random.nextFloat(), -RADIUS, RADIUS);
 
-        dy = SPEED;
+        dy = SPEED * (level+1);
     }
 }

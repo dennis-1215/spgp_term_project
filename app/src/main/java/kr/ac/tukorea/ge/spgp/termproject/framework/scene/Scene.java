@@ -8,7 +8,7 @@ import java.util.ArrayList;
 
 import kr.ac.tukorea.ge.spgp.termproject.framework.activity.GameActivity;
 import kr.ac.tukorea.ge.spgp.termproject.framework.interfaces.IGameObject;
-import kr.ac.tukorea.ge.spgp.termproject.game.Monster;
+import kr.ac.tukorea.ge.spgp.termproject.game.Enemy;
 import kr.ac.tukorea.ge.spgp.termproject.game.Player;
 
 public class Scene {
@@ -53,17 +53,49 @@ public class Scene {
         scene.onResume();
     }
 
+    public static void popAll() {
+        int count = stack.size();
+        for (int i = count - 1; i >= 0; i--) {
+            Scene scene = stack.get(i);
+            scene.onEnd();
+        }
+        stack.clear();
+        finishActivity();
+    }
+
     public static void finishActivity() {
         //GameView gameView = null;
         //gaveView.getActivity().finish();
         GameActivity.activity.finish();
     }
 
+    public static void pauseTop() {
+        Log.i(TAG, "Pausing Game");
+        Scene scene = top();
+        if (scene != null) {
+            scene.onPause();
+        }
+    }
+
+    public static void resumeTop() {
+        Log.i(TAG, "Resuming Game");
+        Scene scene = top();
+        if (scene != null) {
+            scene.onResume();
+        }
+    }
+
+
     protected final ArrayList<IGameObject> gameObjects = new ArrayList<>();
+
+    public int count() {
+        return gameObjects.size();
+    }
+
     public void update(float elapsedSeconds) {
         int count = gameObjects.size();
         float nearestY = 0.0f;
-        Monster monster = null;
+        Enemy enemy = null;
         for (int i = count - 1; i >= 0; i--) {
             IGameObject gameObject = gameObjects.get(i);
             gameObject.update(elapsedSeconds);
@@ -73,12 +105,11 @@ public class Scene {
                     player = (Player) gameObject;
                 }
             }
-            if(gameObject.getClass().getSimpleName().equals("MonsterA") ||
-                gameObject.getClass().getSimpleName().equals("MonsterB")){
-                monster = (Monster) gameObject;
-                if(monster.getDstRect().centerY() > nearestY ){
-                    nearestY = monster.getDstRect().centerY();
-                    player.setNearEnemyRect(monster.getDstRect());
+            if(gameObject.getClass().getSimpleName().equals("Enemy")) {
+                enemy = (Enemy) gameObject;
+                if(enemy.getPosition()[1] > nearestY ){
+                    nearestY = enemy.getPosition()[1];
+                    player.setNearEnemyPos(enemy.getPosition());
                 }
             }
         }
@@ -113,5 +144,9 @@ public class Scene {
     public void add(IGameObject gameObject) {
         gameObjects.add(gameObject);
         Log.d(TAG, gameObjects.size() + " objects in " + this);
+    }
+    public void remove(IGameObject gameObject) {
+        gameObjects.remove(gameObject);
+        Log.d(TAG, gameObjects.size() + " objects in [-]" + getClass().getSimpleName());
     }
 }

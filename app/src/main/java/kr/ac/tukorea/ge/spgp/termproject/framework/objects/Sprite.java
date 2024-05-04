@@ -26,11 +26,11 @@ public class Sprite implements IGameObject {
         dstRect.set(x - radius, y - radius, x + radius, y + radius);
     }
 
-    public float getPositionX() {
-        return this.x;
-    }
-    public float getPositionY() {
-        return this.y;
+    public float[] getPosition() {
+        float[] Position = new float[2];
+        Position[0] = x;
+        Position[1] = y;
+        return Position;
     }
 
     public void setPosition(float x, float y, float width, float height) {
