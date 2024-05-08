@@ -13,7 +13,7 @@ public class Bullet extends AnimSprite implements IBoxCollidable {
     private static final float BULLET_WIDTH = 0.68f;
     private static final float BULLET_HEIGHT = BULLET_WIDTH * 40 / 28;
     private static final float SPEED = 20.0f;
-    private static float POWER = 10.0f;
+    private static float POWER = 100.0f;
 
     private Bullet(float x, float y, double angle_rad) {
         super(R.mipmap.fireball_sheet, 20);
@@ -38,6 +38,8 @@ public class Bullet extends AnimSprite implements IBoxCollidable {
     public RectF getCollisionRect() {
         return dstRect;
     }
+
+    public void setPower(float power) { POWER = power;}
 
     public float getPower() {
         return POWER;

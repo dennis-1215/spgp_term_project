@@ -13,9 +13,18 @@ public class Player extends AnimSprite {
         idle, fire
     }
 
+
+    public int attackSpeedLevel = 0;
+    public int damageLevel = 0;
+    public int fireNumLevel = 0;
+    public int attackCountLevel = 0;
+
     private static final float BULLET_INTERVAL = 1.5f;
     private static final float offset = 0.75f;
-    private float bulletCoolTime = 1.0f;
+    private float bulletCoolTime = 2.5f;
+    private static int level = 0;
+    private static float expMax = 10.0f;
+    private static float exp = 0.0f;
     private double targetAngle;
 
     protected State state = State.idle;
@@ -74,6 +83,27 @@ public class Player extends AnimSprite {
 
     private void fireBall() {
         Scene.top().add(MainScene.Layer.bullet, Bullet.get(x, y, Math.toRadians(targetAngle)));
+    }
+
+    public void addExp(float ex){
+        exp += ex;
+    }
+
+    public boolean levelUpCheck(){
+        if(exp >= expMax){
+            exp = exp - expMax;
+            expMax += 100.0f;
+            level += 1;
+            return true;
+        }
+        else return false;
+    }
+
+    public int getLevel(){
+        return level;
+    }
+    public float getExp(){
+        return exp;
     }
 
 }

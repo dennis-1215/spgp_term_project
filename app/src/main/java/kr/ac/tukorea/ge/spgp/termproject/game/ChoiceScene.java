@@ -1,22 +1,64 @@
 package kr.ac.tukorea.ge.spgp.termproject.game;
 
+import android.graphics.Canvas;
+import android.graphics.Color;
+import android.graphics.Paint;
+import android.graphics.RectF;
 import android.view.MotionEvent;
 
+import java.util.ArrayList;
 import java.util.Random;
 
+import kr.ac.tukorea.ge.spgp.termproject.BuildConfig;
+import kr.ac.tukorea.ge.spgp.termproject.R;
+import kr.ac.tukorea.ge.spgp.termproject.framework.interfaces.IBoxCollidable;
+import kr.ac.tukorea.ge.spgp.termproject.framework.interfaces.IGameObject;
 import kr.ac.tukorea.ge.spgp.termproject.framework.scene.Scene;
 
 public class ChoiceScene extends Scene {
     private static final String TAG = ChoiceScene.class.getSimpleName();
-    private float time;
-    private final Random random = new Random();
+    private final Player player;
+    public static final Random random = new Random();
+
+
+    public enum Layer {
+        bg, castle, enemy, bullet, player, controller, cards, COUNT
+    }
 
     public ChoiceScene() {
+        initLayers(Layer.COUNT);
+
+        add(Layer.bg, new Background(R.mipmap.background));
+
+        add(Layer.castle, new Castle());
+        this.player = new Player();
+        add(Layer.player, player);
+    }
+
+    public ChoiceScene(ArrayList<IGameObject> gameObjects) {
+        Scene scene = Scene.top();
+
+        initLayers(Layer.COUNT);
+
+        ArrayList<IGameObject> enemies = scene.objectsAt(MainScene.Layer.enemy);
+        for(int e = enemies.size() - 1; e >= 0; e--){
+            Enemy enemy = (Enemy) enemies.get(e);
+            add(Layer.enemy, enemy);
+        }
+        add(Layer.bg, new Background(R.mipmap.background));
+
+        for(int i = 1; i <= 3; ++i) {
+            add(Layer.cards, new Card(i, random.nextInt(4)));
+        }
+
+        add(Layer.castle, new Castle());
+        this.player = new Player();
+        add(Layer.player, player);
     }
 
     @Override
     public void update(float elapsedSeconds) {
-        super.update(elapsedSeconds);
+        //super.update(elapsedSeconds);
     }
 
     @Override

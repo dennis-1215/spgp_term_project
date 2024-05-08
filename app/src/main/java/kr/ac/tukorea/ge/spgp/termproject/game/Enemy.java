@@ -22,6 +22,7 @@ public class Enemy extends AnimSprite implements IBoxCollidable {
     private static final float ATTACKCOOL = 2.0f;
     private static final float POWER = 1.0f;
     private static float attackTime = 0.0f;
+    private static float EXP = 0.0f;
 
 
     protected static Rect[][] srcRectsArray = {
@@ -58,6 +59,10 @@ public class Enemy extends AnimSprite implements IBoxCollidable {
         setPosition( Metrics.width * random.nextFloat(), -RADIUS, RADIUS);
         this.life = this.maxLife = (3 - level) * 10;
         dy = SPEED * (level+1);
+        EXP = 10 + random.nextInt(100);
+        if(random.nextFloat() < 0.1){
+            EXP += 1000;
+        }
     }
 
     public static Enemy get(int level){
@@ -96,5 +101,9 @@ public class Enemy extends AnimSprite implements IBoxCollidable {
 
     public float getPower(){
         return POWER;
+    }
+
+    public float getEXP(){
+        return EXP;
     }
 }

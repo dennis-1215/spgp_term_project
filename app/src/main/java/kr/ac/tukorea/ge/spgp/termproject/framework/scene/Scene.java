@@ -13,6 +13,8 @@ import kr.ac.tukorea.ge.spgp.termproject.BuildConfig;
 import kr.ac.tukorea.ge.spgp.termproject.framework.activity.GameActivity;
 import kr.ac.tukorea.ge.spgp.termproject.framework.interfaces.IBoxCollidable;
 import kr.ac.tukorea.ge.spgp.termproject.framework.interfaces.IGameObject;
+import kr.ac.tukorea.ge.spgp.termproject.framework.view.Metrics;
+import kr.ac.tukorea.ge.spgp.termproject.game.ChoiceScene;
 import kr.ac.tukorea.ge.spgp.termproject.game.Enemy;
 import kr.ac.tukorea.ge.spgp.termproject.game.Player;
 
@@ -160,6 +162,10 @@ public class Scene {
                 }
             }
         }
+    }
+
+    public void draw(Canvas canvas, String name, float x, float y, Paint paint) {
+        canvas.drawText(name, x, y, paint);
     }
 
     public boolean onTouch(MotionEvent event) {
