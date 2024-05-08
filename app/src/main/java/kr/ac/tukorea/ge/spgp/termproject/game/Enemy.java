@@ -19,6 +19,10 @@ public class Enemy extends AnimSprite implements IBoxCollidable {
     public static final Random random = new Random();
     private static final float SPEED = 0.5f;
     private static final float RADIUS = 0.5f;
+    private static final float ATTACKCOOL = 2.0f;
+    private static final float POWER = 1.0f;
+    private static float attackTime = 0.0f;
+
 
     protected static Rect[][] srcRectsArray = {
             new Rect[] {
@@ -48,7 +52,7 @@ public class Enemy extends AnimSprite implements IBoxCollidable {
     private static final int[] resIds = {
             R.mipmap.monster_a, R.mipmap.monster_b, R.mipmap.monster_c
     };
-    private int life, maxLife;
+    private float life, maxLife;
     private Enemy(int level) {
         super(resIds[level], 8);
         setPosition( Metrics.width * random.nextFloat(), -RADIUS, RADIUS);
@@ -63,10 +67,12 @@ public class Enemy extends AnimSprite implements IBoxCollidable {
     @Override
     public void update(float elapsedSeconds){
         super.update(elapsedSeconds);
+        attackTime += elapsedSeconds;
         if(dstRect.bottom > Metrics.height * 8.5 / 10){
             dy = 0;
             state = State.attack;
         }
+
     }
 
     @Override
@@ -75,8 +81,20 @@ public class Enemy extends AnimSprite implements IBoxCollidable {
     }
 
 
-    public boolean decreaseLife(int power) {
+    public boolean decreaseLife(float power) {
         life -= power;
         return life <= 0;
+    }
+
+    public boolean attack(){
+        if(attackTime >= ATTACKCOOL){
+            attackTime = 0.0f;
+            return true;
+        }
+        else return false;
+    }
+
+    public float getPower(){
+        return POWER;
     }
 }

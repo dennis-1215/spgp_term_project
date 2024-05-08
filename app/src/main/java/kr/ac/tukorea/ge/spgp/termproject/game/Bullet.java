@@ -12,7 +12,8 @@ import kr.ac.tukorea.ge.spgp.termproject.framework.view.Metrics;
 public class Bullet extends AnimSprite implements IBoxCollidable {
     private static final float BULLET_WIDTH = 0.68f;
     private static final float BULLET_HEIGHT = BULLET_WIDTH * 40 / 28;
-    private static final float SPEED = 2.0f;
+    private static final float SPEED = 20.0f;
+    private static float POWER = 10.0f;
 
     private Bullet(float x, float y, double angle_rad) {
         super(R.mipmap.fireball_sheet, 20);
@@ -38,7 +39,7 @@ public class Bullet extends AnimSprite implements IBoxCollidable {
         return dstRect;
     }
 
-    public int getPower() {
-        return 10;
+    public float getPower() {
+        return POWER;
     }
 }

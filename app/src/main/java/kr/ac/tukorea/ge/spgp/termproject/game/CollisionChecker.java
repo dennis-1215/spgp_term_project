@@ -18,19 +18,31 @@ public class CollisionChecker implements IGameObject {
         if (scene == null) return;
 
         ArrayList<IGameObject> enemies = scene.objectsAt(MainScene.Layer.enemy);
-        for (int e = enemies.size() - 1; e >= 0; e--) {
-            Enemy enemy = (Enemy)enemies.get(e);
-            ArrayList<IGameObject> bullets = scene.objectsAt(MainScene.Layer.bullet);
-            for (int b = bullets.size() - 1; b >= 0; b--) {
-                Bullet bullet = (Bullet)bullets.get(b);
-                if (CollisionHelper.collides(enemy, bullet)) {
-                    Log.d(TAG, "Collision !!");
-                    scene.remove(MainScene.Layer.bullet, bullet);
-                    boolean dead = enemy.decreaseLife(bullet.getPower());
-                    if (dead) {
-                        scene.remove(MainScene.Layer.enemy, enemy);
+        ArrayList<IGameObject> castles = scene.objectsAt(MainScene.Layer.castle);
+        for(int c = castles.size() - 1; c >= 0; c--) {
+            Castle castle = (Castle) castles.get(c);
+
+            for (int e = enemies.size() - 1; e >= 0; e--) {
+                Enemy enemy = (Enemy) enemies.get(e);
+                if (CollisionHelper.collides(enemy, castle)) {
+                    if(enemy.attack()){
+                        castle.decreaseHp(enemy.getPower());
                     }
-                    break;
+                }
+
+
+                ArrayList<IGameObject> bullets = scene.objectsAt(MainScene.Layer.bullet);
+                for (int b = bullets.size() - 1; b >= 0; b--) {
+                    Bullet bullet = (Bullet) bullets.get(b);
+                    if (CollisionHelper.collides(enemy, bullet)) {
+                        Log.d(TAG, "Collision !!");
+                        scene.remove(MainScene.Layer.bullet, bullet);
+                        boolean dead = enemy.decreaseLife(bullet.getPower());
+                        if (dead) {
+                            scene.remove(MainScene.Layer.enemy, enemy);
+                        }
+                        break;
+                    }
                 }
             }
         }

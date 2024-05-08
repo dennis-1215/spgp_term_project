@@ -14,6 +14,8 @@ import java.util.ArrayList;
 import kr.ac.tukorea.ge.spgp.termproject.BuildConfig;
 import kr.ac.tukorea.ge.spgp.termproject.framework.interfaces.IGameObject;
 import kr.ac.tukorea.ge.spgp.termproject.framework.scene.Scene;
+import kr.ac.tukorea.ge.spgp.termproject.game.Castle;
+import kr.ac.tukorea.ge.spgp.termproject.game.MainScene;
 
 //import android.util.AttributeSet;
 
@@ -106,6 +108,9 @@ public class GameView extends View implements Choreographer.FrameCallback {
             int fps = (int) (1.0f / elapsedSeconds);
             int count = scene.count();
             canvas.drawText("FPS: " + fps + " objs: " + count, 100f, 200f, fpsPaint);
+            ArrayList<IGameObject> castles = scene.objectsAt(MainScene.Layer.castle);
+            Castle castle = (Castle) castles.get(0);
+            canvas.drawText("hp: " + castle.getHp(), 100f, 1200f, fpsPaint);
         }
     }
 
