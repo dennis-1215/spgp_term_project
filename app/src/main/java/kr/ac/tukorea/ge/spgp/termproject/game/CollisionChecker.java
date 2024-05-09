@@ -29,6 +29,7 @@ public class CollisionChecker implements IGameObject {
                 for (int e = enemies.size() - 1; e >= 0; e--) {
                     Enemy enemy = (Enemy) enemies.get(e);
                     if (CollisionHelper.collides(enemy, castle)) {
+                        enemy.setAttackState();
                         if (enemy.attack()) {
                             castle.decreaseHp(enemy.getPower());
                         }

@@ -72,12 +72,13 @@ public class Enemy extends AnimSprite implements IBoxCollidable {
     @Override
     public void update(float elapsedSeconds){
         super.update(elapsedSeconds);
-        attackTime += elapsedSeconds;
-        if(dstRect.bottom > Metrics.height * 8.5 / 10){
-            dy = 0;
-            state = State.attack;
-        }
+        if(state == State.attack)
+            attackTime += elapsedSeconds;
+    }
 
+    public void setAttackState(){
+        dy = 0;
+        state = State.attack;
     }
 
     @Override
@@ -93,10 +94,10 @@ public class Enemy extends AnimSprite implements IBoxCollidable {
 
     public boolean attack(){
         if(attackTime >= ATTACKCOOL){
-            attackTime = 0.0f;
+            attackTime -= ATTACKCOOL;
             return true;
         }
-        else return false;
+        return false;
     }
 
     public float getPower(){

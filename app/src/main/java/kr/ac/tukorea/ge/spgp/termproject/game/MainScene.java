@@ -2,7 +2,10 @@ package kr.ac.tukorea.ge.spgp.termproject.game;
 
 import android.view.MotionEvent;
 
+import java.util.ArrayList;
+
 import kr.ac.tukorea.ge.spgp.termproject.R;
+import kr.ac.tukorea.ge.spgp.termproject.framework.interfaces.IGameObject;
 import kr.ac.tukorea.ge.spgp.termproject.framework.view.Metrics;
 import kr.ac.tukorea.ge.spgp.termproject.framework.scene.Scene;
 
@@ -31,6 +34,20 @@ public class MainScene extends Scene {
     @Override
     public void update(float elapsedSeconds) {
         super.update(elapsedSeconds);
+        float nearestY = 0.0f;
+        for (ArrayList<IGameObject> objects : layers) {
+            int count = objects.size();
+            for (int i = count - 1; i >= 0; i--) {
+                IGameObject gameObject = objects.get(i);
+                if (gameObject.getClass().getSimpleName().equals("Enemy")) {
+                    Enemy enemy = (Enemy) gameObject;
+                    if (enemy.getPosition()[1] > nearestY) {
+                        nearestY = enemy.getPosition()[1];
+                        player.setNearEnemyPos(enemy.getPosition());
+                    }
+                }
+            }
+        }
     }
 
     @Override

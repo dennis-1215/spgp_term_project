@@ -17,6 +17,7 @@ public class Castle extends Sprite implements IBoxCollidable {
         setPosition(Metrics.width/2, Metrics.height * 14/ 15, CASTLE_WIDTH, CASTLE_HEIGHT);
     }
 
+    @Override
     public RectF getCollisionRect() {
         return dstRect;
     }

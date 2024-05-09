@@ -116,26 +116,11 @@ public class Scene {
     }
 
     public void update(float elapsedSeconds) {
-        float nearestY = 0.0f;
-        Enemy enemy = null;
         for (ArrayList<IGameObject> objects : layers) {
             int count = objects.size();
             for (int i = count - 1; i >= 0; i--) {
                 IGameObject gameObject = objects.get(i);
                 gameObject.update(elapsedSeconds);
-
-                if (player == null) {
-                    if (gameObject.getClass().getSimpleName().equals("Player")) {
-                        player = (Player) gameObject;
-                    }
-                }
-                if (gameObject.getClass().getSimpleName().equals("Enemy")) {
-                    enemy = (Enemy) gameObject;
-                    if (enemy.getPosition()[1] > nearestY) {
-                        nearestY = enemy.getPosition()[1];
-                        player.setNearEnemyPos(enemy.getPosition());
-                    }
-                }
             }
         }
     }
