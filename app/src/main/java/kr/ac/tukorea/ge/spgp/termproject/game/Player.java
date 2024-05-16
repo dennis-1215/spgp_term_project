@@ -14,10 +14,10 @@ public class Player extends AnimSprite {
     }
 
 
-    public int attackSpeedLevel = 0;
-    public int damageLevel = 0;
-    public int fireNumLevel = 0;
-    public int attackCountLevel = 0;
+    public static int attackSpeedLevel = 0;
+    public static int damageLevel = 0;
+    public static int fireNumLevel = 0;
+    public static int attackCountLevel = 0;
 
     private static final float BULLET_INTERVAL = 1.5f;
     private static final float offset = 0.75f;

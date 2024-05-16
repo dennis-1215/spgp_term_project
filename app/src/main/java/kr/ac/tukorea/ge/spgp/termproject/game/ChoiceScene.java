@@ -14,6 +14,7 @@ import kr.ac.tukorea.ge.spgp.termproject.R;
 import kr.ac.tukorea.ge.spgp.termproject.framework.interfaces.IBoxCollidable;
 import kr.ac.tukorea.ge.spgp.termproject.framework.interfaces.IGameObject;
 import kr.ac.tukorea.ge.spgp.termproject.framework.scene.Scene;
+import kr.ac.tukorea.ge.spgp.termproject.framework.view.Metrics;
 
 public class ChoiceScene extends Scene {
     private static final String TAG = ChoiceScene.class.getSimpleName();
@@ -47,13 +48,13 @@ public class ChoiceScene extends Scene {
         }
         add(Layer.bg, new Background(R.mipmap.background));
 
-        for(int i = 1; i <= 3; ++i) {
-            add(Layer.cards, new Card(i, random.nextInt(4)));
-        }
-
         add(Layer.castle, new Castle());
         this.player = new Player();
         add(Layer.player, player);
+
+        for(int i = 1; i <= 3; ++i) {
+            add(Layer.cards, new Card(i, random.nextInt(4), player));
+        }
     }
 
     @Override
@@ -64,6 +65,11 @@ public class ChoiceScene extends Scene {
     @Override
     public boolean onTouch(MotionEvent event) {
         if (event.getAction() == MotionEvent.ACTION_DOWN) {
+            ArrayList<IGameObject> cards = this.objectsAt(Layer.cards);
+            for(int c = cards.size() - 1; c >= 0; c--){
+                Card card = (Card) cards.get(c);
+                card.OnClickAction(Metrics.fromScreen(event.getX(), event.getY()));
+            }
             Scene.pop();
             return true;
         }

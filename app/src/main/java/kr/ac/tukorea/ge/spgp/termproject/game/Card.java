@@ -3,6 +3,9 @@ package kr.ac.tukorea.ge.spgp.termproject.game;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
+import android.graphics.RectF;
+import android.nfc.Tag;
+import android.util.Log;
 
 import java.util.Random;
 
@@ -21,22 +24,29 @@ import kr.ac.tukorea.ge.spgp.termproject.framework.view.Metrics;
 */
 
 public class Card extends Sprite {
+    private static final String TAG = CollisionChecker.class.getSimpleName();
     private final Paint stringPaint;
     public enum cardType {attack_speed, damage, fire_num, attack_count};
     public cardType type;
+    private final Player m_player;
 
     public float x;
     public final float y = Metrics.height/2;
 
-    protected static String[] textArray = {"공격속도증가","공격력증가", "발사체증가", "공격횟수증가" };
+    protected int[] levelArray;
+
     private static final int[] resIds = {
             R.mipmap.fire_speed, R.mipmap.damage_up, R.mipmap.double_shot, R.mipmap.more_shot
     };
-    public Card(int i, int rand) {
+    public Card(int i, int rand, Player player) {
         super(resIds[rand]);
         stringPaint = new Paint();
         stringPaint.setColor(Color.BLACK);
         stringPaint.setTextSize(1.2f);
+
+        m_player = player;
+
+        levelArray = new int[]{m_player.attackSpeedLevel, m_player.damageLevel, m_player.fireNumLevel, m_player.attackCountLevel};
 
         switch (rand){
             case 0:
@@ -73,18 +83,40 @@ public class Card extends Sprite {
     public void draw(Canvas canvas){
         canvas.drawBitmap(bitmap, null, dstRect, null);
 
-        canvas.scale(1/3f, 1/3f, x, y+2f);
-        canvas.drawText(textArray[this.type.ordinal()], x, y, stringPaint);
-        canvas.scale(3.0f, 3.0f, x, y+2f);
+        canvas.scale(1/2f, 1/2f, x, y+2f);
+        canvas.drawText("LV. " + String.valueOf(levelArray[this.type.ordinal()]), x+0.5f, y+1f, stringPaint);
+        canvas.scale(2f, 2f, x, y+2f);
     }
 
     void apply(Player player){
+        switch (type){
+            case attack_speed:
+                player.attackSpeedLevel += 1;
+                Log.d(TAG, "공속업");
 
+                break;
+            case damage:
+                player.damageLevel += 1;
+                Log.d(TAG, "공업");
+
+                break;
+            case fire_num:
+                player.fireNumLevel += 1;
+                Log.d(TAG, "발사체업");
+
+                break;
+            case attack_count:
+                player.attackCountLevel += 1;
+                Log.d(TAG, "공횟수업");
+
+                break;
+        }
     }
 
-    void OnClickAction(float x, float y){
-        if(this.dstRect.contains(x, y)){
-            //apply();
+    void OnClickAction(float coord[]){
+        if(this.dstRect.contains(coord[0], coord[1])){
+            Log.d(TAG, "choice " + type);
+            apply(m_player);
         }
     }
 }
