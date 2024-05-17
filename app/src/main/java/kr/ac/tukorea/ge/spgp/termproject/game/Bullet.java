@@ -15,15 +15,16 @@ public class Bullet extends AnimSprite implements IBoxCollidable {
     private static final float SPEED = 20.0f;
     private static float POWER = 10.0f;
 
-    private Bullet(float x, float y, double angle_rad) {
+    private Bullet(float x, float y, double angle_rad, float power) {
         super(R.mipmap.fireball_sheet, 20);
         setPosition(x, y, BULLET_WIDTH, BULLET_HEIGHT);
         dx = (float) (SPEED * Math.cos(angle_rad));
         dy = (float) (SPEED * Math.sin(angle_rad));
+        POWER = power;
     }
 
-    public static Bullet get(float x, float y, double angle_rad) {
-        return new Bullet(x, y, angle_rad);
+    public static Bullet get(float x, float y, double angle_rad, float power) {
+        return new Bullet(x, y, angle_rad, power);
     }
 
     @Override

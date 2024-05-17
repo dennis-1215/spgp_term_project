@@ -19,24 +19,15 @@ import kr.ac.tukorea.ge.spgp.termproject.framework.view.Metrics;
 public class ChoiceScene extends Scene {
     private static final String TAG = ChoiceScene.class.getSimpleName();
     private final Player player;
+
+    private static ArrayList<Integer> options;
     public static final Random random = new Random();
 
 
     public enum Layer {
         bg, castle, enemy, bullet, player, controller, cards, COUNT
     }
-
     public ChoiceScene() {
-        initLayers(Layer.COUNT);
-
-        add(Layer.bg, new Background(R.mipmap.background));
-
-        add(Layer.castle, new Castle());
-        this.player = new Player();
-        add(Layer.player, player);
-    }
-
-    public ChoiceScene(ArrayList<IGameObject> gameObjects) {
         Scene scene = Scene.top();
 
         initLayers(Layer.COUNT);
@@ -53,7 +44,7 @@ public class ChoiceScene extends Scene {
         add(Layer.player, player);
 
         for(int i = 1; i <= 3; ++i) {
-            add(Layer.cards, new Card(i, random.nextInt(4), player));
+            add(Layer.cards, new Card(i, player.getOptions().get(random.nextInt(player.getOptions().size())), player));
         }
     }
 

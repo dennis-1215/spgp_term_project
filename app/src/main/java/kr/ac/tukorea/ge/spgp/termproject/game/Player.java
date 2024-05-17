@@ -2,6 +2,9 @@ package kr.ac.tukorea.ge.spgp.termproject.game;
 
 import android.graphics.Canvas;
 import android.graphics.Rect;
+import android.util.Log;
+
+import java.util.ArrayList;
 
 import kr.ac.tukorea.ge.spgp.termproject.R;
 import kr.ac.tukorea.ge.spgp.termproject.framework.objects.AnimSprite;
@@ -9,6 +12,8 @@ import kr.ac.tukorea.ge.spgp.termproject.framework.view.Metrics;
 import kr.ac.tukorea.ge.spgp.termproject.framework.scene.Scene;
 
 public class Player extends AnimSprite {
+    private static final String TAG = Player.class.getSimpleName();
+
     public enum State{
         idle, fire
     }
@@ -19,14 +24,16 @@ public class Player extends AnimSprite {
     public static int fireNumLevel = 0;
     public static int attackCountLevel = 0;
 
-    private static final float BULLET_INTERVAL = 1.5f;
+    public static float BULLET_INTERVAL = 1.5f;
     private static final float offset = 0.75f;
     private float bulletCoolTime = 2.5f;
     private static int level = 0;
     private static float expMax = 10.0f;
     private static float exp = 0.0f;
     private double targetAngle;
+    public static float damage = 10.0f;
 
+    protected ArrayList<Integer> levelOptions = new ArrayList<Integer>(0);
     protected State state = State.idle;
     protected static Rect[][] srcRectsArray = {
             new Rect[] {
@@ -59,10 +66,19 @@ public class Player extends AnimSprite {
         bulletCoolTime -= elapsedSeconds;
         if (bulletCoolTime <= 0) {
             fire();
-            fireBall();
+            for(int j = 0; j <= fireNumLevel; ++j) {
+                for (int i = 0; i <= attackCountLevel; ++i) {
+                    if (i % 2 == 1) {
+                        fireBall(10 * ((i + 1) / 2));
+                    } else {
+                        fireBall(-10 * ((i + 1) / 2));
+                    }
+                }
+
+            }
             bulletCoolTime = BULLET_INTERVAL;
         }
-        else if (bulletCoolTime <= BULLET_INTERVAL - 0.2f){
+        else if (bulletCoolTime <= BULLET_INTERVAL - BULLET_INTERVAL/10.f){
             idle();
         }
     }
@@ -81,8 +97,8 @@ public class Player extends AnimSprite {
         targetAngle = Math.toDegrees(Math.acos(dx / Math.sqrt(dx*dx + dy*dy))) * dy / Math.abs(dy);
     }
 
-    private void fireBall() {
-        Scene.top().add(MainScene.Layer.bullet, Bullet.get(x, y, Math.toRadians(targetAngle)));
+    private void fireBall(float angle) {
+        Scene.top().add(MainScene.Layer.bullet, Bullet.get(x, y, Math.toRadians(targetAngle + angle), damage));
     }
 
     public void addExp(float ex){
@@ -104,6 +120,25 @@ public class Player extends AnimSprite {
     }
     public float getExp(){
         return exp;
+    }
+
+    public ArrayList<Integer> getOptions(){
+        levelOptions.clear();
+
+        if(attackSpeedLevel < 17) {
+            levelOptions.add(0);
+        }
+        levelOptions.add(1);
+        if(fireNumLevel < 7){
+            levelOptions.add(2);
+        }
+        if(attackCountLevel < 8){
+            levelOptions.add(3);
+        }
+
+        Log.d(TAG, "level options : " + levelOptions);
+
+        return levelOptions;
     }
 
 }

@@ -18,7 +18,7 @@ import kr.ac.tukorea.ge.spgp.termproject.framework.view.Metrics;
 /*   - 공격속도 : 기본 3초에 1회 공격, lv당 10%의 쿨타임 감소로 3 * 0.9^lv
    - (lv0 = 3.0, lv1 = 2.7, lv2 = 2.43 ... lv17 = 0.50 이 최대)
    - 공격력 : 기본 데미지 50, lv당 20%의 공격력 증가 50 * 1.2^lv (업그레이드에 제한이 없다.)
-   - 투사체 개수 : 업그레이드 당 1개씩 추가 최대 9개까지 증가
+   - 투사체 개수 : 업그레이드 당 1개씩 추가 최대 7개까지 증가
    - (lv0 = 정면, lv1,lv2 = 각 좌측/우측 10도 방향으로 추가발사, lv3,lv4 = 20도 ... lv7,lv8 = 40도)
    - 발사횟수 : 업그레이드당 1회 추가(최대 8회)
 */
@@ -33,7 +33,7 @@ public class Card extends Sprite {
     public float x;
     public final float y = Metrics.height/2;
 
-    protected int[] levelArray;
+    protected static int[] levelArray;
 
     private static final int[] resIds = {
             R.mipmap.fire_speed, R.mipmap.damage_up, R.mipmap.double_shot, R.mipmap.more_shot
@@ -92,22 +92,20 @@ public class Card extends Sprite {
         switch (type){
             case attack_speed:
                 player.attackSpeedLevel += 1;
-                Log.d(TAG, "공속업");
+                player.BULLET_INTERVAL *= 0.9;
 
                 break;
             case damage:
                 player.damageLevel += 1;
-                Log.d(TAG, "공업");
+                player.damage *= 1.2;
 
                 break;
             case fire_num:
                 player.fireNumLevel += 1;
-                Log.d(TAG, "발사체업");
 
                 break;
             case attack_count:
                 player.attackCountLevel += 1;
-                Log.d(TAG, "공횟수업");
 
                 break;
         }
