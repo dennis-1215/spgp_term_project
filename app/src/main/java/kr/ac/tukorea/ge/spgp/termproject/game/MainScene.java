@@ -48,6 +48,9 @@ public class MainScene extends Scene {
                 }
             }
         }
+        if (player.levelUpCheck()){
+            new ChoiceScene().push();
+        }
     }
 
     @Override

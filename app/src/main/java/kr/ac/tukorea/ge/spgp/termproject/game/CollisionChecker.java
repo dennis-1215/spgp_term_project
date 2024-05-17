@@ -46,10 +46,6 @@ public class CollisionChecker implements IGameObject {
                             if (dead) {
                                 player.addExp(enemy.getEXP());
                                 scene.remove(MainScene.Layer.enemy, enemy);
-
-                                while(player.levelUpCheck()){
-                                    new ChoiceScene(enemies).push();
-                                }
                             }
                             break;
                         }
