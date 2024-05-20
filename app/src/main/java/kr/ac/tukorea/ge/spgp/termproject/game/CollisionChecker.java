@@ -21,7 +21,9 @@ public class CollisionChecker implements IGameObject {
         ArrayList<IGameObject> players = scene.objectsAt(MainScene.Layer.player);
         ArrayList<IGameObject> enemies = scene.objectsAt(MainScene.Layer.enemy);
         ArrayList<IGameObject> castles = scene.objectsAt(MainScene.Layer.castle);
-        for(int p = players.size() - 1; p >= 0; p--) {
+        ArrayList<IGameObject> kills = scene.objectsAt(MainScene.Layer.ui);
+        KillScore kill = (KillScore) kills.get(0);
+        for (int p = players.size() - 1; p >= 0; p--) {
             Player player = (Player) players.get(p);
             for (int c = castles.size() - 1; c >= 0; c--) {
                 Castle castle = (Castle) castles.get(c);
@@ -35,7 +37,6 @@ public class CollisionChecker implements IGameObject {
                         }
                     }
 
-
                     ArrayList<IGameObject> bullets = scene.objectsAt(MainScene.Layer.bullet);
                     for (int b = bullets.size() - 1; b >= 0; b--) {
                         Bullet bullet = (Bullet) bullets.get(b);
@@ -46,6 +47,7 @@ public class CollisionChecker implements IGameObject {
                             if (dead) {
                                 player.addExp(enemy.getEXP());
                                 scene.remove(MainScene.Layer.enemy, enemy);
+                                kill.add(1);
                             }
                             break;
                         }
@@ -53,7 +55,9 @@ public class CollisionChecker implements IGameObject {
                 }
             }
         }
+
     }
+
 
     @Override
     public void draw(Canvas canvas) {

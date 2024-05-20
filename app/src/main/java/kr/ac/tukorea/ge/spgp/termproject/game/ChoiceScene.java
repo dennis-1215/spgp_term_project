@@ -25,7 +25,7 @@ public class ChoiceScene extends Scene {
 
 
     public enum Layer {
-        bg, castle, enemy, bullet, player, controller, cards, COUNT
+        bg, castle, enemy, bullet, player, ui, controller, cards, COUNT
     }
     public ChoiceScene() {
         Scene scene = Scene.top();
@@ -42,6 +42,10 @@ public class ChoiceScene extends Scene {
         add(Layer.castle, new Castle());
         this.player = new Player();
         add(Layer.player, player);
+        ArrayList<IGameObject> uis = scene.objectsAt(MainScene.Layer.ui);
+
+        add(Layer.ui, uis.get(0));
+        add(Layer.ui, uis.get(1));
 
         for(int i = 1; i <= 3; ++i) {
             add(Layer.cards, new Card(i, player.getOptions().get(random.nextInt(player.getOptions().size())), player));

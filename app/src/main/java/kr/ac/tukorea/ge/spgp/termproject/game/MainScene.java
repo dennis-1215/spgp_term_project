@@ -13,9 +13,11 @@ import kr.ac.tukorea.ge.spgp.termproject.framework.scene.Scene;
 public class MainScene extends Scene {
     private static final String TAG = MainScene.class.getSimpleName();
     private final Player player;
+    KillScore killScore;
+    TimeScore timeScore;
 
     public enum Layer {
-        bg, castle, enemy, bullet, player, controller, COUNT
+        bg, castle, enemy, bullet, player, ui, controller, COUNT
     }
 
     public MainScene() {
@@ -29,11 +31,20 @@ public class MainScene extends Scene {
         add(Layer.castle, new Castle());
         this.player = new Player();
         add(Layer.player, player);
+
+        this.killScore = new KillScore(R.mipmap.number_24x32, Metrics.width - 0.5f,  -0.5f, 0.6f);
+        killScore.setScore(0);
+        add(Layer.ui, killScore);
+
+        this.timeScore = new TimeScore(R.mipmap.number_24x32, 1.7f, -0.5f, 0.4f);
+        timeScore.setScore(0);
+        add(Layer.ui, timeScore);
     }
 
     @Override
     public void update(float elapsedSeconds) {
         super.update(elapsedSeconds);
+        timeScore.add(elapsedSeconds);
         float nearestY = 0.0f;
         for (ArrayList<IGameObject> objects : layers) {
             int count = objects.size();
