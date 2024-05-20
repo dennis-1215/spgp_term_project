@@ -54,19 +54,19 @@ public class Enemy extends AnimSprite implements IBoxCollidable {
             R.mipmap.monster_a, R.mipmap.monster_b, R.mipmap.monster_c
     };
     private float life, maxLife;
-    private Enemy(int level) {
+    private Enemy(int level, float time) {
         super(resIds[level], 8);
         setPosition( Metrics.width * random.nextFloat(), -RADIUS, RADIUS);
-        this.life = this.maxLife = (3 - level) * 10;
+        this.life = this.maxLife = (3 - level) * 10 * (time / 20);
         dy = SPEED * (level+1);
-        EXP = 10 + random.nextInt(100);
-        if(random.nextFloat() < 0.1){
-            EXP += 1000;
+        EXP = 10 + random.nextInt(30);
+        if(random.nextFloat() < 0.01){
+            EXP += 2000 * random.nextFloat();
         }
     }
 
-    public static Enemy get(int level){
-        return new Enemy(level);
+    public static Enemy get(int level, float time){
+        return new Enemy(level, time);
     }
 
     @Override
