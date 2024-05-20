@@ -14,6 +14,7 @@ public class MainScene extends Scene {
     private static final String TAG = MainScene.class.getSimpleName();
     private final Player player;
     KillScore killScore;
+    KillScore playerLevel;
     TimeScore timeScore;
 
     public enum Layer {
@@ -32,13 +33,17 @@ public class MainScene extends Scene {
         this.player = new Player();
         add(Layer.player, player);
 
-        this.killScore = new KillScore(R.mipmap.number_24x32, Metrics.width - 0.5f,  -0.5f, 0.6f);
+        this.killScore = new KillScore(R.mipmap.number_24x32, Metrics.width - 0.5f,  0.5f, 0.5f);
         killScore.setScore(0);
         add(Layer.ui, killScore);
 
         this.timeScore = new TimeScore(R.mipmap.number_24x32, 1.7f, -0.5f, 0.4f);
         timeScore.setScore(0);
         add(Layer.ui, timeScore);
+
+        this.playerLevel = new KillScore(R.mipmap.number_24x32, 2.8f, -0.5f, 0.4f);
+        playerLevel.setScore(0);
+        add(Layer.ui, playerLevel);
     }
 
     @Override
@@ -60,6 +65,7 @@ public class MainScene extends Scene {
             }
         }
         if (player.levelUpCheck()){
+            playerLevel.add(1);
             new ChoiceScene().push();
         }
     }

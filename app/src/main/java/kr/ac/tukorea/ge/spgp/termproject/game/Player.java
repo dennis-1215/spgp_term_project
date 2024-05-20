@@ -18,7 +18,6 @@ public class Player extends AnimSprite {
         idle, fire
     }
 
-
     public static int attackSpeedLevel = 0;
     public static int damageLevel = 0;
     public static int fireNumLevel = 0;
@@ -34,6 +33,9 @@ public class Player extends AnimSprite {
     private static float exp = 0.0f;
     private double targetAngle;
     public static float damage = 10.0f;
+
+    protected static Gauge gauge = new Gauge(0.1f, R.color.player_gauge_fg, R.color.player_gauge_bg);
+
 
     protected ArrayList<Integer> levelOptions = new ArrayList<Integer>(0);
     protected State state = State.idle;
@@ -60,6 +62,13 @@ public class Player extends AnimSprite {
         Rect[] rects = srcRectsArray[state.ordinal()];
         int frameIndex = Math.round(time * fps) % rects.length;
         canvas.drawBitmap(bitmap, rects[frameIndex], dstRect, null);
+
+        canvas.save();
+        float width = dstRect.width() * 4.0f;
+        canvas.translate(x - width/5, -0.5f);
+        canvas.scale(width*0.9f, width);
+        gauge.draw(canvas, (float)exp / expMax);
+        canvas.restore();
     }
 
     @Override

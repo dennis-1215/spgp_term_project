@@ -2,4 +2,9 @@
 <resources>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
+    <color name="castle_gauge_bg">#6BAEFF97</color>
+    <color name="castle_gauge_fg">#44B52F</color>
+    <color name="player_gauge_bg">#D097B1FF</color>
+    <color name="player_gauge_fg">#3C56FF</color>
+
 </resources>

@@ -46,6 +46,7 @@ public class ChoiceScene extends Scene {
 
         add(Layer.ui, uis.get(0));
         add(Layer.ui, uis.get(1));
+        add(Layer.ui, uis.get(2));
 
         for(int i = 1; i <= 3; ++i) {
             add(Layer.cards, new Card(i, player.getOptions().get(random.nextInt(player.getOptions().size())), player));

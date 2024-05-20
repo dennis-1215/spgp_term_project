@@ -25,7 +25,8 @@ public class GameView extends View implements Choreographer.FrameCallback {
 
     // Debug Helper
     private Paint borderPaint;
-    private Paint fpsPaint;
+    private Paint castlePaint;
+    private Paint textPaint;
 
     private void initDebugObjects(){
         borderPaint = new Paint();
@@ -33,9 +34,13 @@ public class GameView extends View implements Choreographer.FrameCallback {
         borderPaint.setStrokeWidth(0.1f);
         borderPaint.setColor(Color.RED);
 
-        fpsPaint = new Paint();
-        fpsPaint.setColor(Color.BLUE);
-        fpsPaint.setTextSize(100f);
+        castlePaint = new Paint();
+        castlePaint.setColor(Color.RED);
+        castlePaint.setTextSize(55f);
+
+        textPaint = new Paint();
+        textPaint.setColor(Color.BLUE);
+        textPaint.setTextSize(70f);
     }
 
     // View Constructor
@@ -99,7 +104,7 @@ public class GameView extends View implements Choreographer.FrameCallback {
         canvas.save();
         Metrics.concat(canvas);
         if(BuildConfig.DEBUG) {
-            canvas.drawRect(Metrics.borderRect, borderPaint);
+            //canvas.drawRect(Metrics.borderRect, borderPaint);
         }
 
         scene.draw(canvas);
@@ -110,12 +115,12 @@ public class GameView extends View implements Choreographer.FrameCallback {
             int count = scene.count();
             ArrayList<IGameObject> players = scene.objectsAt(MainScene.Layer.player);
             Player player = (Player) players.get(0);
-            //canvas.drawText("FPS: " + fps + " objs: " + count, 100f, 200f, fpsPaint);
+            canvas.drawText("Time", 20f, 85f, textPaint);
+            canvas.drawText("Lv", 240f, 85f, textPaint);
+
             ArrayList<IGameObject> castles = scene.objectsAt(MainScene.Layer.castle);
             Castle castle = (Castle) castles.get(0);
-            //canvas.drawText("hp: " + castle.getHp(), 100f, 2000f, fpsPaint);
-
-
+            canvas.drawText("hp " + castle.getHp(), 900f, 2150f, castlePaint);
         }
     }
 
