@@ -37,9 +37,16 @@ public class ChoiceScene extends Scene {
             Enemy enemy = (Enemy) enemies.get(e);
             add(Layer.enemy, enemy);
         }
-        add(Layer.bg, new Background(R.mipmap.background));
 
-        add(Layer.castle, new Castle());
+        ArrayList<IGameObject> bullets = scene.objectsAt(MainScene.Layer.bullet);
+        for(int e = bullets.size() - 1; e >= 0; e--){
+            Bullet bullet = (Bullet) bullets.get(e);
+            add(Layer.bullet, bullet);
+        }
+
+        add(Layer.bg, scene.objectsAt(MainScene.Layer.bg).get(0));
+
+        add(Layer.castle, scene.objectsAt(MainScene.Layer.castle).get(0));
         this.player = new Player();
         add(Layer.player, player);
         ArrayList<IGameObject> uis = scene.objectsAt(MainScene.Layer.ui);

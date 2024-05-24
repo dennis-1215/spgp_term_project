@@ -13,7 +13,7 @@ import kr.ac.tukorea.ge.spgp.termproject.framework.view.Metrics;
 public class Castle extends Sprite implements IBoxCollidable {
     private static final float CASTLE_WIDTH = Metrics.width*2;
     private static final float CASTLE_HEIGHT = Metrics.height / 5;
-    private static float hp = 100.0f;
+    private float hp = 100.0f;
     private final float maxHp = 100.0f;
     protected static Gauge gauge = new Gauge(0.1f, R.color.castle_gauge_fg, R.color.castle_gauge_bg);
     private Paint hpPaint;

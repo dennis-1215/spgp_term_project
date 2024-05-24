@@ -32,7 +32,7 @@ public class Player extends AnimSprite {
     private static float expMax = 10.0f;
     private static float exp = 0.0f;
     private double targetAngle;
-    public static float damage = 10.0f;
+    public static float damage = 15.0f;
 
     protected static Gauge gauge = new Gauge(0.1f, R.color.player_gauge_fg, R.color.player_gauge_bg);
 
@@ -87,7 +87,7 @@ public class Player extends AnimSprite {
             idle();
         }
 
-        if(multishot > 0 && multishotCoolTime >= 0.1f){
+        if(multishot > 0 && multishotCoolTime >= 0.1f - attackSpeedLevel * 0.005){
             shoot();
             multishot--;
             multishotCoolTime = 0.0f;

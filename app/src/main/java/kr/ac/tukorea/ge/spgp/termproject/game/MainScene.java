@@ -1,5 +1,6 @@
 package kr.ac.tukorea.ge.spgp.termproject.game;
 
+import android.util.Log;
 import android.view.MotionEvent;
 
 import java.util.ArrayList;
@@ -13,6 +14,7 @@ import kr.ac.tukorea.ge.spgp.termproject.framework.scene.Scene;
 public class MainScene extends Scene {
     private static final String TAG = MainScene.class.getSimpleName();
     private final Player player;
+    private final Castle castle;
     KillScore killScore;
     KillScore playerLevel;
     TimeScore timeScore;
@@ -29,7 +31,9 @@ public class MainScene extends Scene {
 
         add(Layer.bg, new Background(R.mipmap.background));
 
-        add(Layer.castle, new Castle());
+        this.castle = new Castle();
+        add(Layer.castle, castle);
+
         this.player = new Player();
         add(Layer.player, player);
 
@@ -48,6 +52,7 @@ public class MainScene extends Scene {
 
     @Override
     public void update(float elapsedSeconds) {
+        //elapsedSeconds *= 10.0f;
         super.update(elapsedSeconds);
         timeScore.add(elapsedSeconds);
         float nearestY = 0.0f;
@@ -67,6 +72,9 @@ public class MainScene extends Scene {
         if (player.levelUpCheck()){
             playerLevel.add(1);
             new ChoiceScene().push();
+        }
+        if(castle.getHp() <= 0){
+            new GameOverScene().push();
         }
     }
 
