@@ -92,7 +92,7 @@ public class Card extends Sprite {
         switch (type){
             case attack_speed:
                 player.attackSpeedLevel += 1;
-                player.BULLET_INTERVAL *= 0.9;
+                player.BULLET_INTERVAL *= 0.95;
 
                 break;
             case damage:
@@ -115,6 +115,7 @@ public class Card extends Sprite {
         if(this.dstRect.contains(coord[0], coord[1])){
             Log.d(TAG, "choice " + type);
             apply(m_player);
+            Scene.pop();
         }
     }
 }

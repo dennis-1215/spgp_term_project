@@ -36,6 +36,7 @@ public class MainScene extends Scene {
 
         this.player = new Player();
         add(Layer.player, player);
+        player.init();
 
         this.killScore = new KillScore(R.mipmap.number_24x32, Metrics.width - 0.5f,  0.5f, 0.5f);
         killScore.setScore(0);
@@ -85,7 +86,7 @@ public class MainScene extends Scene {
             case MotionEvent.ACTION_MOVE:
                 float[] pts = Metrics.fromScreen(event.getX(), event.getY());
                 if (pts[1] < 1.0) {
-                    pop();
+                    castle.decreaseHp(100);
                 }
                 return true;
         }

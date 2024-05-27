@@ -73,7 +73,6 @@ public class ChoiceScene extends Scene {
                 Card card = (Card) cards.get(c);
                 card.OnClickAction(Metrics.fromScreen(event.getX(), event.getY()));
             }
-            Scene.pop();
             return true;
         }
         return false;

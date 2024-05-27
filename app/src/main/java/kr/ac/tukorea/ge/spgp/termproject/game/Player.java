@@ -23,7 +23,7 @@ public class Player extends AnimSprite {
     public static int fireNumLevel = 0;
     public static int attackCountLevel = 0;
 
-    public static float BULLET_INTERVAL = 1.5f;
+    public static float BULLET_INTERVAL = 2.0f;
     private static final float offset = 0.75f;
     private float bulletCoolTime = 2.5f;
     private float multishotCoolTime = 0.f;
@@ -147,7 +147,7 @@ public class Player extends AnimSprite {
     public ArrayList<Integer> getOptions(){
         levelOptions.clear();
 
-        if(attackSpeedLevel < 17) {
+        if(attackSpeedLevel < 13) {
             levelOptions.add(0);
         }
         levelOptions.add(1);
@@ -162,5 +162,11 @@ public class Player extends AnimSprite {
 
         return levelOptions;
     }
-
+    public void init(){
+        level = 0;
+        attackSpeedLevel = 0;
+        damageLevel = 0;
+        fireNumLevel = 0;
+        attackCountLevel = 0;
+    }
 }
