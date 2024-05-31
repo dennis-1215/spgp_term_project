@@ -13,6 +13,7 @@ import kr.ac.tukorea.ge.spgp.termproject.BuildConfig;
 import kr.ac.tukorea.ge.spgp.termproject.R;
 import kr.ac.tukorea.ge.spgp.termproject.framework.interfaces.IBoxCollidable;
 import kr.ac.tukorea.ge.spgp.termproject.framework.interfaces.IGameObject;
+import kr.ac.tukorea.ge.spgp.termproject.framework.res.Sound;
 import kr.ac.tukorea.ge.spgp.termproject.framework.scene.Scene;
 import kr.ac.tukorea.ge.spgp.termproject.framework.view.Metrics;
 
@@ -58,6 +59,10 @@ public class ChoiceScene extends Scene {
         for(int i = 1; i <= 3; ++i) {
             add(Layer.cards, new Card(i, player.getOptions().get(random.nextInt(player.getOptions().size())), player));
         }
+    }
+    @Override
+    protected void onStart() {
+        Sound.playEffect(R.raw.levelup);
     }
 
     @Override

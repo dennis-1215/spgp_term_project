@@ -12,6 +12,7 @@ import java.util.Random;
 import kr.ac.tukorea.ge.spgp.termproject.R;
 import kr.ac.tukorea.ge.spgp.termproject.framework.activity.GameActivity;
 import kr.ac.tukorea.ge.spgp.termproject.framework.interfaces.IGameObject;
+import kr.ac.tukorea.ge.spgp.termproject.framework.res.Sound;
 import kr.ac.tukorea.ge.spgp.termproject.framework.scene.Scene;
 import kr.ac.tukorea.ge.spgp.termproject.framework.view.Metrics;
 
@@ -109,6 +110,11 @@ public class GameOverScene extends Scene {
         }
 
 
+    }
+
+    @Override
+    protected void onStart() {
+        Sound.stopMusic();
     }
 
     @Override

@@ -5,7 +5,9 @@ import android.util.Log;
 
 import java.util.ArrayList;
 
+import kr.ac.tukorea.ge.spgp.termproject.R;
 import kr.ac.tukorea.ge.spgp.termproject.framework.interfaces.IGameObject;
+import kr.ac.tukorea.ge.spgp.termproject.framework.res.Sound;
 import kr.ac.tukorea.ge.spgp.termproject.framework.scene.Scene;
 import kr.ac.tukorea.ge.spgp.termproject.framework.util.CollisionHelper;
 import kr.ac.tukorea.ge.spgp.termproject.framework.view.GameView;
@@ -34,6 +36,7 @@ public class CollisionChecker implements IGameObject {
                         enemy.setAttackState();
                         if (enemy.attack()) {
                             castle.decreaseHp(enemy.getPower());
+                            Sound.playEffect(R.raw.hitwall);
                         }
                     }
 
@@ -47,6 +50,7 @@ public class CollisionChecker implements IGameObject {
                             if (dead) {
                                 player.addExp(enemy.getEXP());
                                 scene.remove(MainScene.Layer.enemy, enemy);
+                                Sound.playEffect(R.raw.enemydie);
                                 kill.add(1);
                             }
                             break;

@@ -7,6 +7,7 @@ import java.util.ArrayList;
 
 import kr.ac.tukorea.ge.spgp.termproject.R;
 import kr.ac.tukorea.ge.spgp.termproject.framework.interfaces.IGameObject;
+import kr.ac.tukorea.ge.spgp.termproject.framework.res.Sound;
 import kr.ac.tukorea.ge.spgp.termproject.framework.view.Metrics;
 import kr.ac.tukorea.ge.spgp.termproject.framework.scene.Scene;
 
@@ -77,6 +78,18 @@ public class MainScene extends Scene {
         if(castle.getHp() <= 0){
             new GameOverScene().push();
         }
+    }
+
+
+    @Override
+    protected void onStart() {
+        Sound.playMusic(R.raw.music);
+    }
+
+    @Override
+    protected void onEnd() {
+        Sound.stopMusic();
+        Sound.playEffect(R.raw.gameover);
     }
 
     @Override

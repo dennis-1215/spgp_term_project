@@ -8,6 +8,7 @@ import java.util.ArrayList;
 
 import kr.ac.tukorea.ge.spgp.termproject.R;
 import kr.ac.tukorea.ge.spgp.termproject.framework.objects.AnimSprite;
+import kr.ac.tukorea.ge.spgp.termproject.framework.res.Sound;
 import kr.ac.tukorea.ge.spgp.termproject.framework.view.Metrics;
 import kr.ac.tukorea.ge.spgp.termproject.framework.scene.Scene;
 
@@ -109,7 +110,7 @@ public class Player extends AnimSprite {
     }
 
     private void shoot(){
-
+        Sound.playEffect(R.raw.fireball);
         for (int i = 0; i <= fireNumLevel; ++i) {
             if (i % 2 == 1) {
                 fireBall(10 * ((i + 1) / 2));
