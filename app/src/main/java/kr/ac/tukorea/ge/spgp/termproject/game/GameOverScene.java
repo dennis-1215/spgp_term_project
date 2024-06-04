@@ -20,6 +20,7 @@ public class GameOverScene extends Scene {
     private static final String TAG = GameOverScene.class.getSimpleName();
     private final Player player;
     private final Scene scene;
+    private Background background;
 
     private static ArrayList<Integer> options;
     public static final Random random = new Random();
@@ -50,6 +51,11 @@ public class GameOverScene extends Scene {
         this.player = new Player();
         add(Layer.player, player);
 
+        background = new Background(R.mipmap.gameoverbg);
+
+        background.setPosition(Metrics.width/2,Metrics.height/2, Metrics.width * 6/4, Metrics.height * 5/4);
+
+        add(Layer.bg, background);
 
         kill = (KillScore)scene.objectsAt(MainScene.Layer.ui).get(0);
         times = (TimeScore)scene.objectsAt(MainScene.Layer.ui).get(1);
@@ -70,27 +76,33 @@ public class GameOverScene extends Scene {
 
     @Override
     public void draw(Canvas canvas){
+        layers.get(0).get(0).draw(canvas);
 
         if(time >= 5.0f){
             skip = true;
         }
         canvas.save();
-        canvas.scale(0.8f, 0.8f, 0.0f, 10.0f);
+
+        canvas.drawText("결과 ", Metrics.width*2/5, Metrics.height / 18, stringPaint);
+
+
+        canvas.scale(0.8f, 0.8f, 0.0f, 20.0f);
+
         if(time >= 1.0f){
-            canvas.drawText("생존시간 " +   times.getScore() / 60 + "분" + times.getScore() % 60 + "초", 0.1f, 1.0f, stringPaint);
+            canvas.drawText("생존시간 " +   times.getScore() / 60 + "분" + times.getScore() % 60 + "초", 0.1f, Metrics.height / 18, stringPaint);
         }
         if(time >= 2.0f){
-            canvas.drawText("시간점수 " +   String.valueOf((int)timescore), 0.1f, 2.0f, stringPaint);
+            canvas.drawText("시간점수 " +   String.valueOf((int)timescore), 0.1f, Metrics.height * 2 / 18, stringPaint);
         }
         if(time >= 3.0f){
-            canvas.drawText("처치 " + kill.getScore(), 0.1f, 4.0f, stringPaint);
+            canvas.drawText("처치 " + kill.getScore(), 0.1f, Metrics.height * 4 / 18, stringPaint);
         }
         if(time >= 4.0f){
-            canvas.drawText("처치점수 " + String.valueOf((int)killscore), 0.1f, 5.0f, stringPaint);
+            canvas.drawText("처치점수 " + String.valueOf((int)killscore), 0.1f, Metrics.height * 5 / 18, stringPaint);
         }
 
         if(time >= 5.0f){
-            canvas.drawText("총점수 " + String.valueOf((int)timescore + (int)killscore), 2.0f, 8.0f, stringPaint);
+            canvas.drawText("총점수 " + String.valueOf((int)timescore + (int)killscore), 2.0f, Metrics.height * 8 / 18, stringPaint);
         }
 
         canvas.restore();
