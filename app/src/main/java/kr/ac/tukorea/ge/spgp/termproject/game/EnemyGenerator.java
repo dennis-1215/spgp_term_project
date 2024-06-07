@@ -16,9 +16,9 @@ public class EnemyGenerator implements IGameObject {
         enemyTime -= elapsedSeconds;
         gameTime += elapsedSeconds;
         if (enemyTime < 0) {
-            for (int i = 0; i <=(int) gameTime / 50; ++i) {
+            for (int i = 0; i <=(int) gameTime / 40; ++i) {
                 generate();
-                enemyTime = random.nextInt(3) + 0.5f;
+                enemyTime = random.nextInt(3) + 1.5f;
             }
         }
     }

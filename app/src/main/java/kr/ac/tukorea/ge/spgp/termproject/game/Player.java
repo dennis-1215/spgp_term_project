@@ -23,6 +23,9 @@ public class Player extends AnimSprite {
     public static int damageLevel = 0;
     public static int fireNumLevel = 0;
     public static int attackCountLevel = 0;
+    public static int castleHpLevel = 0;
+    public static int castleRecoveryLevel = 0;
+    public static int castleDefLevel = 0;
 
     public static float BULLET_INTERVAL = 2.0f;
     private static final float offset = 0.75f;
@@ -158,6 +161,13 @@ public class Player extends AnimSprite {
         if(attackCountLevel < 8){
             levelOptions.add(3);
         }
+
+        levelOptions.add(4);
+        if(castleRecoveryLevel < 5) {
+            levelOptions.add(5);
+        }
+
+        levelOptions.add(6);
 
         Log.d(TAG, "level options : " + levelOptions);
 

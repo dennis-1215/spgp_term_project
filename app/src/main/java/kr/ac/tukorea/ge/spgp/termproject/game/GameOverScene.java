@@ -61,7 +61,7 @@ public class GameOverScene extends Scene {
         times = (TimeScore)scene.objectsAt(MainScene.Layer.ui).get(1);
 
         timescore = (int) times.getScore() / 60 * 100 + times.getScore() % 60 * 10;
-        killscore = kill.getScore() / 100 * 10000 + kill.getScore() % 100 * 10;
+        killscore = kill.getScore() / 100 * 2000 + kill.getScore() % 100 * 10;
     }
 
     @Override

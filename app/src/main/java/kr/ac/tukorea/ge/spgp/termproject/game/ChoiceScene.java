@@ -20,6 +20,7 @@ import kr.ac.tukorea.ge.spgp.termproject.framework.view.Metrics;
 public class ChoiceScene extends Scene {
     private static final String TAG = ChoiceScene.class.getSimpleName();
     private final Player player;
+    private final Castle castle;
 
     private static ArrayList<Integer> options;
     public static final Random random = new Random();
@@ -46,8 +47,9 @@ public class ChoiceScene extends Scene {
         }
 
         add(Layer.bg, scene.objectsAt(MainScene.Layer.bg).get(0));
+        castle = (Castle) scene.objectsAt(MainScene.Layer.castle).get(0);
+        add(Layer.castle, castle);
 
-        add(Layer.castle, scene.objectsAt(MainScene.Layer.castle).get(0));
         this.player = new Player();
         add(Layer.player, player);
         ArrayList<IGameObject> uis = scene.objectsAt(MainScene.Layer.ui);
@@ -57,7 +59,7 @@ public class ChoiceScene extends Scene {
         add(Layer.ui, uis.get(2));
 
         for(int i = 1; i <= 3; ++i) {
-            add(Layer.cards, new Card(i, player.getOptions().get(random.nextInt(player.getOptions().size())), player));
+            add(Layer.cards, new Card(i, player.getOptions().get(random.nextInt(player.getOptions().size())), player, castle));
         }
     }
     @Override
