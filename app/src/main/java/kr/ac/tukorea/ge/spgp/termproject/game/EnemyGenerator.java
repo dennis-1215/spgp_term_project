@@ -11,6 +11,7 @@ public class EnemyGenerator implements IGameObject {
     private final Random random = new Random();
     private float enemyTime = 0;
     private float gameTime = 0.0f;
+
     @Override
     public void update(float elapsedSeconds) {
         enemyTime -= elapsedSeconds;
@@ -28,7 +29,8 @@ public class EnemyGenerator implements IGameObject {
 
         int type = random.nextInt(3);
         int level = (int) (gameTime/30);
-        scene.add(MainScene.Layer.enemy, Enemy.get(type, level+1));
+        int diff = (int) (gameTime/60);
+        scene.add(MainScene.Layer.enemy, Enemy.get(type, level+1+diff));
     }
 
     @Override

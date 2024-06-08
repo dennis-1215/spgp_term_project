@@ -47,6 +47,9 @@ public class ChoiceScene extends Scene {
         }
 
         add(Layer.bg, scene.objectsAt(MainScene.Layer.bg).get(0));
+        add(Layer.bg, scene.objectsAt(MainScene.Layer.bg).get(1));
+        add(Layer.bg, scene.objectsAt(MainScene.Layer.bg).get(2));
+
         castle = (Castle) scene.objectsAt(MainScene.Layer.castle).get(0);
         add(Layer.castle, castle);
 

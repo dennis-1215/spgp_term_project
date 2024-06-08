@@ -73,11 +73,21 @@ public class TimeScore implements IGameObject {
         canvas.drawBitmap(bitmap, srcRect, dstRect, null);
 
         // 분 출력
-        int digit = minute % 10;
-        srcRect.set(digit * srcCharWidth, 0, (digit + 1) * srcCharWidth, srcCharHeight);
-        x -= dstCharWidth;
-        dstRect.set(x, top, x + dstCharWidth, top + dstCharHeight);
-        canvas.drawBitmap(bitmap, srcRect, dstRect, null);
+        if(minute == 0) {
+            int digit = minute % 10;
+            srcRect.set(digit * srcCharWidth, 0, (digit + 1) * srcCharWidth, srcCharHeight);
+            x -= dstCharWidth;
+            dstRect.set(x, top, x + dstCharWidth, top + dstCharHeight);
+            canvas.drawBitmap(bitmap, srcRect, dstRect, null);
+        }
+        while(minute > 0) {
+            int digit = minute % 10;
+            srcRect.set(digit * srcCharWidth, 0, (digit + 1) * srcCharWidth, srcCharHeight);
+            x -= dstCharWidth;
+            dstRect.set(x, top, x + dstCharWidth, top + dstCharHeight);
+            canvas.drawBitmap(bitmap, srcRect, dstRect, null);
+            minute /= 10;
+        }
     }
 
     public void add(float amount) {

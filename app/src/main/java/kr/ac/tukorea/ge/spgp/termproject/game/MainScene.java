@@ -16,6 +16,8 @@ public class MainScene extends Scene {
     private static final String TAG = MainScene.class.getSimpleName();
     private final Player player;
     private final Castle castle;
+    private final Background uibg;
+    private final Background nullbg;
     KillScore killScore;
     KillScore playerLevel;
     TimeScore timeScore;
@@ -38,6 +40,14 @@ public class MainScene extends Scene {
         this.player = new Player();
         add(Layer.player, player);
         player.init();
+
+        uibg = new Background(R.mipmap.ui_bg);
+        uibg.setPosition(Metrics.width/2, -0.5f, Metrics.width, Metrics.height * 3 / 32);
+        add(Layer.bg, uibg);
+
+        nullbg = new Background(R.mipmap.ui_bg);
+        nullbg.setPosition(Metrics.width/2, Metrics.height + 0.8f, Metrics.width, Metrics.height * 2 / 16);
+        add(Layer.bg, nullbg);
 
         this.killScore = new KillScore(R.mipmap.number_24x32, Metrics.width - 0.5f,  0.5f, 0.5f);
         killScore.setScore(0);
@@ -99,7 +109,7 @@ public class MainScene extends Scene {
             case MotionEvent.ACTION_MOVE:
                 float[] pts = Metrics.fromScreen(event.getX(), event.getY());
                 if (pts[1] < 1.0) {
-                    castle.decreaseHp(100);
+                    castle.decreaseHp(99);
                 }
                 return true;
         }

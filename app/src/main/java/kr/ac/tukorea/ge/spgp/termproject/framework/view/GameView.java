@@ -109,19 +109,6 @@ public class GameView extends View implements Choreographer.FrameCallback {
 
         scene.draw(canvas);
         canvas.restore();
-
-        if (BuildConfig.DEBUG) {
-            int fps = (int) (1.0f / elapsedSeconds);
-            int count = scene.count();
-            ArrayList<IGameObject> players = scene.objectsAt(MainScene.Layer.player);
-            Player player = (Player) players.get(0);
-            canvas.drawText("Time", 20f, 85f, textPaint);
-            canvas.drawText("Lv", 240f, 85f, textPaint);
-
-            ArrayList<IGameObject> castles = scene.objectsAt(MainScene.Layer.castle);
-            Castle castle = (Castle) castles.get(0);
-            canvas.drawText("hp " + castle.getHp(), 900f, 2150f, castlePaint);
-        }
     }
 
     // Utilities
