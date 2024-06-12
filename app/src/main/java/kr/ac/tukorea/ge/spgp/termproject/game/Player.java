@@ -33,7 +33,7 @@ public class Player extends AnimSprite {
     private float multishotCoolTime = 0.f;
     private int multishot = 0;
     private static int level = 0;
-    private static float expMax = 10.0f;
+    private static float expMax = 100.0f;
     private static float exp = 0.0f;
     private double targetAngle;
     public static float damage = 15.0f;
@@ -179,5 +179,15 @@ public class Player extends AnimSprite {
         damageLevel = 0;
         fireNumLevel = 0;
         attackCountLevel = 0;
+        castleDefLevel = 0;
+        castleHpLevel = 0;
+        castleRecoveryLevel = 0;
+
+        expMax = 100.0f;
+        exp = 0.0f;
+        BULLET_INTERVAL = 2.0f;
+        damage = 15.0f;
+
+
     }
 }

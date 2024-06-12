@@ -40,7 +40,7 @@ public class Castle extends Sprite implements IBoxCollidable {
         recoveryCoolTime += elapsedSeconds;
         if(recoveryCoolTime >= RECOVERY_INTERVAL) {
             if (hp < maxHp) {
-                hp += 0.2 * recoveryLevel;
+                hp += 0.2f * recoveryLevel;
                 recoveryCoolTime -= RECOVERY_INTERVAL;
             }
         }
@@ -76,5 +76,13 @@ public class Castle extends Sprite implements IBoxCollidable {
 
     public void setMaxHp(float num) {maxHp = num;}
     public void setHp(float num) {hp = num;}
+
+    public void init() {
+        recoveryLevel = 0;
+        RECOVERY_INTERVAL = 5.0f;
+        maxHp = 100.0f;
+        hp = 100.0f;
+        def = 0;
+    }
 
 }

@@ -30,6 +30,13 @@ public class EnemyGenerator implements IGameObject {
         int type = random.nextInt(3);
         int level = (int) (gameTime/30);
         int diff = (int) (gameTime/60);
+
+        int i = 1;
+        while(gameTime > 180 * i){
+            level += 3;
+            i++;
+        }
+
         scene.add(MainScene.Layer.enemy, Enemy.get(type, level+1+diff));
     }
 

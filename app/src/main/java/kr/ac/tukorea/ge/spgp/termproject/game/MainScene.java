@@ -36,13 +36,14 @@ public class MainScene extends Scene {
 
         this.castle = new Castle();
         add(Layer.castle, castle);
+        castle.init();
 
         this.player = new Player();
         add(Layer.player, player);
         player.init();
 
         uibg = new Background(R.mipmap.ui_bg);
-        uibg.setPosition(Metrics.width/2, -0.5f, Metrics.width, Metrics.height * 3 / 32);
+        uibg.setPosition(Metrics.width/2, -0.6f, Metrics.width, Metrics.height * 3 / 32);
         add(Layer.bg, uibg);
 
         nullbg = new Background(R.mipmap.ui_bg);
@@ -64,7 +65,7 @@ public class MainScene extends Scene {
 
     @Override
     public void update(float elapsedSeconds) {
-        //elapsedSeconds *= 10.0f;
+        //elapsedSeconds *= 1.5f;
         super.update(elapsedSeconds);
         timeScore.add(elapsedSeconds);
         float nearestY = 0.0f;

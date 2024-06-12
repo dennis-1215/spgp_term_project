@@ -134,7 +134,7 @@ public class Card extends Sprite {
 
             case castle_defup:
                 player.castleDefLevel += 1;
-                castle.def += 0.1;
+                castle.def += 0.4;
                 break;
         }
     }
