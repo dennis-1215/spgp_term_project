@@ -37,7 +37,14 @@ public class EnemyGenerator implements IGameObject {
             i++;
         }
 
-        scene.add(MainScene.Layer.enemy, Enemy.get(type, level+1+diff));
+        i = 1;
+
+        while(gameTime > 300 * i){
+            diff += 5;
+            i++;
+        }
+
+        scene.add(MainScene.Layer.enemy, Enemy.get(type, 1+level+diff));
     }
 
     @Override
