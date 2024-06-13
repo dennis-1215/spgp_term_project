@@ -29,6 +29,12 @@ public class MainScene extends Scene {
     public MainScene() {
         initLayers(Layer.COUNT);
 
+        Sound.playEffect(R.raw.enemydie);
+        Sound.playEffect(R.raw.levelup);
+        Sound.playEffect(R.raw.gameover);
+        Sound.playEffect(R.raw.hitwall);
+        Sound.playEffect(R.raw.fireball);
+
         add(Layer.controller, new EnemyGenerator());
         add(Layer.controller, new CollisionChecker());
 
@@ -89,6 +95,8 @@ public class MainScene extends Scene {
         if(castle.getHp() <= 0){
             new GameOverScene().push();
         }
+        //uibg.setPosition(Metrics.width/2, Metrics.screenTop/2, Metrics.width, Math.abs(Metrics.screenTop));
+        //Log.d(TAG, "st : " + Metrics.screenTop);
     }
 
 
@@ -100,7 +108,6 @@ public class MainScene extends Scene {
     @Override
     protected void onEnd() {
         Sound.stopMusic();
-        Sound.playEffect(R.raw.gameover);
     }
 
     @Override
