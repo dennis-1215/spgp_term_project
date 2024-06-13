@@ -48,6 +48,10 @@ public class Sound {
         pool.play(soundId, 1f, 1f, 1, 0, 1f);
     }
 
+    public static void resetSoundIdMap() {
+        soundIdMap.clear();
+    }
+
     private static SoundPool getSoundPool() {
         if (soundPool != null) return soundPool;
 

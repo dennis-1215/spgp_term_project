@@ -129,6 +129,11 @@ public class GameOverScene extends Scene {
     }
 
     @Override
+    protected void onEnd() {
+        Sound.resetSoundIdMap();
+    }
+
+    @Override
     public boolean onTouch(MotionEvent event) {
         if (event.getAction() == MotionEvent.ACTION_DOWN) {
             skip = true;
