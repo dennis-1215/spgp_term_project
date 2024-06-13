@@ -41,7 +41,7 @@ public class Castle extends Sprite implements IBoxCollidable {
         if(recoveryCoolTime >= RECOVERY_INTERVAL) {
             if (hp < maxHp) {
                 hp += 0.2f * recoveryLevel;
-                recoveryCoolTime -= RECOVERY_INTERVAL;
+                recoveryCoolTime = 0.0f;
             }
         }
     }
