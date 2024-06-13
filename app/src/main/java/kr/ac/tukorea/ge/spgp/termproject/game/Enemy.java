@@ -3,6 +3,7 @@ package kr.ac.tukorea.ge.spgp.termproject.game;
 import android.graphics.Canvas;
 import android.graphics.Rect;
 import android.graphics.RectF;
+import android.util.Log;
 
 import java.util.Random;
 
@@ -12,6 +13,8 @@ import kr.ac.tukorea.ge.spgp.termproject.framework.objects.AnimSprite;
 import kr.ac.tukorea.ge.spgp.termproject.framework.view.Metrics;
 
 public class Enemy extends AnimSprite implements IBoxCollidable {
+    private static final String TAG = Enemy.class.getSimpleName();
+
     protected enum State {
         running, attack
     }
@@ -61,20 +64,20 @@ public class Enemy extends AnimSprite implements IBoxCollidable {
         this.life = this.maxLife = (3 - type) * 10 * level;
         dy = SPEED * (type+1);
         EXP = 30 + random.nextInt(50);
-        RANDOM_NUMBER = random.nextInt(1000);
-        if(RANDOM_NUMBER == 0){
-            EXP += 10000 * random.nextFloat();
+        RANDOM_NUMBER = random.nextInt(10000);
+        if(RANDOM_NUMBER <= 5){
+            EXP += 10000;
         }
-        else if(RANDOM_NUMBER <= 5){
+        else if(RANDOM_NUMBER <= 10){
             EXP += 5000;
         }
-        else if(RANDOM_NUMBER <= 50) {
+        else if(RANDOM_NUMBER <= 100) {
             EXP += 1000;
         }
-        else if(RANDOM_NUMBER <= 100) {
+        else if(RANDOM_NUMBER <= 1000) {
             EXP += 100;
         }
-
+        Log.d(TAG, "EXP(" + RANDOM_NUMBER + ") : " + EXP);
         POWER += level/10;
     }
 
